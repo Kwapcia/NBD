@@ -1,4 +1,7 @@
 package model;
 
-public class PassengerType {
-}
+public interface PassengerType {
+        double applyDiscount(double price);
+        String getTypeInfo();
+    }
+
