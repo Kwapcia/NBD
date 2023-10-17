@@ -1,9 +1,12 @@
 package managers;
 
 import model.Passenger;
+import model.Senior;
 import repositories.PassengerRepository;
 
-public class PassengerManager {
+import java.io.Serializable;
+
+public class PassengerManager implements Serializable {
         private PassengerRepository passengerRepository;
 
         public PassengerManager(PassengerRepository passengerRepository) {

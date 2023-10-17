@@ -2,7 +2,9 @@ package managers;
 import model.Train;
 import repositories.TrainRepository;
 
-public class TrainManager {
+import java.io.Serializable;
+
+public class TrainManager implements Serializable {
         private TrainRepository trainRepository;
 
         public TrainManager(TrainRepository trainRepository) {

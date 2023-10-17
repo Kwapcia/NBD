@@ -3,13 +3,16 @@ import jakarta.persistence.*;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 import org.joda.time.PeriodType;
+
+import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Access(AccessType.FIELD)
+@Table(name = "Tickets")
 
-public class Ticket {
+public class Ticket implements Serializable {
     @Column(name = "Id")
     private final UUID id;
 

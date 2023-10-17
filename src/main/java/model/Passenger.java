@@ -1,12 +1,17 @@
 package model;
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
+
+import java.io.Serializable;
 
 @Entity
+@Table(name ="Passengers")
 @Inheritance (strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "Type")
 @Access(AccessType.FIELD)
-
-public class Passenger {
+//@Transactional(isolation = IsolationLevel.REPEATABLE_READ)
+//@Transactional(R)
+public class Passenger implements Serializable {
 
         @Column(name = "First_Name")
         private String firstName;

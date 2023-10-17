@@ -4,10 +4,12 @@ import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
+import java.io.Serializable;
+
 @Entity
 @DiscriminatorValue(value = "Senior")
 
-public class Senior implements PassengerType {
+public class Senior implements PassengerType, Serializable {
 
     @Column(name = "Discount")
     public String discount = "20%";

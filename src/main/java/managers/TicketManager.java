@@ -1,4 +1,5 @@
 package managers;
+import java.io.Serializable;
 import java.util.UUID;
 
 import model.Passenger;
@@ -6,7 +7,7 @@ import model.Ticket;
 import repositories.TicketRepository;
 import model.Train;
 import org.joda.time.DateTime;
-public class TicketManager {
+public class TicketManager implements Serializable {
         private TicketRepository currentTickets;
         private TicketRepository archiveTickets;
 
