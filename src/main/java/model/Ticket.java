@@ -52,6 +52,7 @@ public class Ticket implements Serializable {
     }
 
     // Getters
+    @OneToMany(mappedBy = "Passenger") //ticket może mieć tylko jednego passenger a passenger może mieć wiele ticketsów, mappedby-> dwukierunkowa
     public String getInfo() {
         String beginTimeString = beginTime != null ? beginTime.toString() : "Not set";
         String endTimeString = endTime != null ? endTime.toString() : "Not set";
