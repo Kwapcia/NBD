@@ -3,6 +3,10 @@ import managers.PassengerManager;
 import managers.TicketManager;
 import managers.TrainManager;
 import menu.TerminalMenu;
+import repositories.PassengerRepository;
+import repositories.TicketRepository;
+import repositories.TrainRepository;
+
 public class Main {
     public static void main(String[] args) {
         PassengerRepository passengerRepo = new PassengerRepository();

@@ -1,6 +1,6 @@
 package managers;
 import model.Train;
-import model.TrainRepository;
+import repositories.TrainRepository;
 
 public class TrainManager {
         private TrainRepository trainRepository;

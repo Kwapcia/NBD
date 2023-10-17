@@ -1,15 +1,31 @@
 package model;
+import jakarta.persistence.*;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 import org.joda.time.PeriodType;
 import java.util.UUID;
 
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Access(AccessType.FIELD)
+
 public class Ticket {
+    @Column(name = "Id")
     private final UUID id;
+
+    @Column(name = "Passenger_Info") //?
     private final Passenger passenger;
+
+    @Column(name = "Train_Info") //?
     private final Train train;
+
+    @Column(name = "Begin_Time")
     private DateTime beginTime;
+
+    @Column(name = "End_Time")
     private DateTime endTime;
+
+    @Column(name = "Ticket_Price")
     private float ticketCost;
 
     public Ticket(UUID id, Passenger passenger, Train train, DateTime beginTime) {

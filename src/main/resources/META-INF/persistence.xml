@@ -3,7 +3,29 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
              version="3.0">
-    <persistence-unit name="default">
-
+    <persistence-unit name="POSTGRES_RENT_PU" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>managers.PassengerManager</class>
+        <class>managers.TicketManager</class>
+        <class>managers.TrainManager</class>
+        <class>model.Passenger</class>
+        <class>model.Ticket</class>
+        <class>model.Train</class>
+        <class>model.Senior</class>
+        <class>model.Children</class>
+        <class>model.Adult</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <shared-cache-mode>NONE</shared-cache-mode>
+        <validation-mode>CALLBACK</validation-mode>
+        <properties>
+            <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/postgres"/>
+            <property name="jakarta.persistence.jdbc.user" value="nbd"/>
+            <property name="jakarta.persistence.jdbc.password" value="nbdpassword"/>
+            <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.connection.isolation" value="2"/>
+        </properties>
     </persistence-unit>
 </persistence>

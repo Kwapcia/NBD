@@ -1,11 +1,30 @@
 package model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Access(AccessType.FIELD)
+
+//potrzebny hashcode i equals?
 public class Train {
+
+        @Column(name = "Base_Price")
         private int basePrice;
+
+        @Column(name = "ID")
         private int id;
+
+        @Column(name = "Seat_Number")
         private String seat;
+
+        @Column(name = "Starting_Location")
         private String startingLocation;
+
+        @Column(name = "Destination")
         private String destination;
+
+        @Column(name = "Is_Archived")
         private boolean isArchive;
 
         public Train(int basePrice, int id, String seat, String startingLocation, String destination) {

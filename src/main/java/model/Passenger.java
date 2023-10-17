@@ -1,30 +1,51 @@
 package model;
+import jakarta.persistence.*;
+
+@Entity
+@Inheritance (strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "Type")
+@Access(AccessType.FIELD)
 
 public class Passenger {
+
+        @Column(name = "First_Name")
         private String firstName;
+
+        @Column(name = "Last_Name")
         private String lastName;
-        private final String personalID;
+
+        @Column(name = "Pesel")
+        private final String pesel;
+
+        @Column(name = "Age")
         private int age;
+
+        @Column(name = "Is_Archived")
         private boolean isArchive;
+
         private PassengerType passengerType;
 
-        public Passenger(String firstName, String lastName, String personalID, int age) {
+        public Passenger(String firstName, String lastName, String pesel, int age) {
+
             if (firstName == null || firstName.isEmpty()) {
                 throw new IllegalArgumentException("Invalid firstName (can't be empty)!");
             }
             if (lastName == null || lastName.isEmpty()) {
                 throw new IllegalArgumentException("Invalid lastName (can't be empty)!");
             }
-            if (personalID == null || personalID.isEmpty()) {
-                throw new IllegalArgumentException("Invalid personalID (can't be empty)!");
+            if (pesel == null || pesel.isEmpty()) {
+                throw new IllegalArgumentException("Invalid pesel (can't be empty)!");
             }
             if (age <= 0) {
+                throw new IllegalArgumentException("Invalid age!");
+            }
+            if (age > 120) {
                 throw new IllegalArgumentException("Invalid age!");
             }
 
             this.firstName = firstName;
             this.lastName = lastName;
-            this.personalID = personalID;
+            this.pesel = pesel;
             this.age = age;
             this.isArchive = false;
 
@@ -39,8 +60,8 @@ public class Passenger {
 
         // Getters
         public String getInfo() {
-            return "First name: " + getFirstName() + ", last name: " + getLastName() + ", personal id: " +
-                    getPersonalID() + ", age: " + getAge() + ", passenger type: " + getPassengerType().getTypeInfo() +
+            return "First name: " + getFirstName() + ", last name: " + getLastName() + ", pesel: " +
+                    getPesel() + ", age: " + getAge() + ", passenger type: " + getPassengerType().getTypeInfo() +
                     ", is archive: " + (isArchive ? "true" : "false");
         }
 
@@ -52,8 +73,8 @@ public class Passenger {
             return lastName;
         }
 
-        public String getPersonalID() {
-            return personalID;
+        public String getPesel() {
+            return pesel;
         }
 
         public int getAge() {

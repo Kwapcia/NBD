@@ -1,6 +1,7 @@
 package managers;
+
 import model.Passenger;
-import model.PassengerRepository;
+import repositories.PassengerRepository;
 
 public class PassengerManager {
         private PassengerRepository passengerRepository;
@@ -36,7 +37,7 @@ public class PassengerManager {
 
         public Passenger getPassenger(String personalID) {
             for (Passenger passenger : passengerRepository.getPassengers()) {
-                if (passenger.getPersonalID().equals(personalID)) {
+                if (passenger.getPesel().equals(personalID)) {
                     return passenger;
                 }
             }

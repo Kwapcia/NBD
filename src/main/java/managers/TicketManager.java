@@ -3,7 +3,7 @@ import java.util.UUID;
 
 import model.Passenger;
 import model.Ticket;
-import model.TicketRepository;
+import repositories.TicketRepository;
 import model.Train;
 import org.joda.time.DateTime;
 public class TicketManager {
