@@ -28,6 +28,7 @@ public class Passenger implements Serializable {
         @Column(name = "Is_Archived")
         private boolean isArchive;
 
+        @ManyToOne
         private PassengerType passengerType;
 
         public Passenger(String firstName, String lastName, String pesel, int age) {

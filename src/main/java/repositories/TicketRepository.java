@@ -1,5 +1,9 @@
 package repositories;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import model.Ticket;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +13,17 @@ public class TicketRepository implements Repository<Ticket> {
     private List<Ticket> tickets = new ArrayList<>();
 
     public void add(Ticket ticket) {
+//        try (EntityManager em = EntityManagerGetter.getEntityManager()) {
+//            try {
+//                em.getTransaction().begin();
+//                em.persist(ticket);
+//                em.getTransaction().commit();
+//            } catch (Exception ex){
+//                if(em.getTransaction().isActive())
+//                    em.getTransaction().rollback();
+//                throw new RuntimeException(ex);
+//            }
+//        }
         tickets.add(ticket);
     }
 
@@ -17,8 +32,19 @@ public class TicketRepository implements Repository<Ticket> {
         return null;
     }
 
+    @Override
     public void remove(Ticket ticket) {
-        tickets.remove(ticket);
+        try (EntityManager em = EntityManagerGetter.getEntityManager()){
+            try {
+                em.getTransaction().begin();
+                em.remove(ticket);
+                em.getTransaction().commit();
+            } catch (Exception ex){
+                if (em.getTransaction().isActive())
+                    em.getTransaction().rollback();
+                throw new RuntimeException(ex);
+            }
+        }
     }
 
     public List<Ticket> getTickets() {

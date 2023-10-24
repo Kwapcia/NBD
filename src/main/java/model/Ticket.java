@@ -19,7 +19,7 @@ public class Ticket implements Serializable {
     @Column(name = "Passenger_Info") //?
     private final Passenger passenger;
 
-    @Column(name = "Train_Info") //?
+    @ManyToOne(cascade = CascadeType.REMOVE)
     private final Train train;
 
     @Column(name = "Begin_Time")

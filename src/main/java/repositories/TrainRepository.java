@@ -1,5 +1,9 @@
 package repositories;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import model.Train;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,10 +14,28 @@ public class TrainRepository implements Repository<Train>{
 
     public List<Train> getTrains() {
         return trains;
+//        try(EntityManager em = EntityManagerGetter.getEntityManager()) {
+//            CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+//            CriteriaQuery<Train>criteriaQuery = criteriaBuilder.createQuery(Train.class);
+//            Root<Train> root = criteriaQuery.from(Train.class);
+//            criteriaQuery.select(root);
+//            return em.createQuery(criteriaQuery).getResultList();
+//        }
     }
 
     public void add(Train train) {
         trains.add(train);
+//        try(EntityManager em =EntityManagerGetter.getEntityManager()) {
+//            try {
+//                em.getTransaction().begin();
+//                em.persist(train);
+//                em.getTransaction().commit();
+//            }catch (Exception ex) {
+//                if(em.getTransaction().isActive())
+//                    em.getTransaction().rollback();
+//            }
+//        }
+
     }
 
     @Override
@@ -22,7 +44,17 @@ public class TrainRepository implements Repository<Train>{
     }
 
     public void remove(Train train) {
-        trains.remove(train);
+        try (EntityManager em = EntityManagerGetter.getEntityManager()){
+            try {
+                em.getTransaction().begin();
+                em.remove(train);
+                em.getTransaction().commit();
+            } catch (Exception ex) {
+                if(em.getTransaction().isActive())
+                    em.getTransaction().rollback();
+                throw new RuntimeException(ex);
+            }
+        }
     }
 
     public String report() {
