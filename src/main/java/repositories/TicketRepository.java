@@ -1,35 +1,35 @@
 package repositories;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.Persistence;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import model.Ticket;
+import model.Train;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Predicate;
 
 public class TicketRepository implements Repository<Ticket> {
-    private List<Ticket> tickets = new ArrayList<>();
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
 
     public void add(Ticket ticket) {
-//        try (EntityManager em = EntityManagerGetter.getEntityManager()) {
-//            try {
-//                em.getTransaction().begin();
-//                em.persist(ticket);
-//                em.getTransaction().commit();
-//            } catch (Exception ex){
-//                if(em.getTransaction().isActive())
-//                    em.getTransaction().rollback();
-//                throw new RuntimeException(ex);
-//            }
-//        }
-        tickets.add(ticket);
-    }
-
-    @Override
-    public Ticket find(Predicate<Ticket> predicate) {
-        return null;
+        try (EntityManager em = EntityManagerGetter.getEntityManager()) {
+            try {
+                em.getTransaction().begin();
+                em.persist(ticket);
+                em.getTransaction().commit();
+            } catch (Exception ex){
+                if(em.getTransaction().isActive())
+                    em.getTransaction().rollback();
+                throw new RuntimeException(ex);
+            }
+        }
     }
 
     @Override
@@ -48,30 +48,43 @@ public class TicketRepository implements Repository<Ticket> {
     }
 
     public List<Ticket> getTickets() {
-        return tickets;
-    }
-
-    public String report() {
-        StringBuilder report = new StringBuilder();
-        for (Ticket ticket : tickets) {
-            report.append(ticket.getInfo()).append("\n");
+        try(EntityManager em = EntityManagerGetter.getEntityManager()) {
+            CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+            CriteriaQuery<Ticket>criteriaQuery = criteriaBuilder.createQuery(Ticket.class);
+            Root<Ticket> root = criteriaQuery.from(Ticket.class);
+            criteriaQuery.select(root);
+            return em.createQuery(criteriaQuery).getResultList();
         }
-        return report.toString();
     }
 
     @Override
     public Ticket get(int id) {
-        return null;
-    }
-
-
-    @Override
-    public List<Ticket> findAll(Predicate<Ticket> predicate) {
-        return new ArrayList<>();
+        try (EntityManager em = emf.createEntityManager()) {
+            return em.find(Ticket.class, id);
+        }
     }
 
     @Override
-    public int size() {
-        return tickets.size();
+    public Ticket update(Ticket ticket) {
+        try (EntityManager em = emf.createEntityManager()) {
+            em.getTransaction().begin();
+            Ticket newTicket = em.find(Ticket.class, ticket.getId());
+            em.getTransaction().commit();
+            return newTicket;
+        }
+    }
+
+    public Ticket getByUUID(UUID uuid) {
+        try (EntityManager em = EntityManagerGetter.getEntityManager()) {
+            CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+            CriteriaQuery<Ticket> criteriaQuery = criteriaBuilder.createQuery(Ticket.class);
+            Root<Ticket> root = criteriaQuery.from(Ticket.class);
+            criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("id"), uuid));
+            try {
+                return em.createQuery(criteriaQuery).getSingleResult();
+            } catch (NoResultException e) {
+                return null; // Return null if ticket with the specified UUID is not found
+            }
+        }
     }
 }

@@ -1,23 +1,26 @@
 package model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 
 @Entity
 @DiscriminatorValue(value = "Adult")
 
-public class Adult implements PassengerType, Serializable {
+public class Adult extends PassengerType{
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
     @Column(name = "Discount")
     public String discount = "0%";
 
+    @Override
     public double applyDiscount(double price) {
         return price;
     }
 
+    @Override
     public String getTypeInfo() {
         return "Adult";
     }

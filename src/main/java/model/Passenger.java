@@ -1,18 +1,24 @@
 package model;
 import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 @Entity
-@Table(name ="Passengers")
-@Inheritance (strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "Type")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Access(AccessType.FIELD)
+@Table(name = "Tickets")
+@NoArgsConstructor
+
 //@Transactional(isolation = IsolationLevel.REPEATABLE_READ)
 //@Transactional(R)
-public class Passenger implements Serializable {
+public class Passenger extends AbstractEntity {
 
+        @Id
+        @GeneratedValue(strategy = GenerationType.AUTO)
+        private long id;
         @Column(name = "First_Name")
         private String firstName;
 
@@ -20,7 +26,7 @@ public class Passenger implements Serializable {
         private String lastName;
 
         @Column(name = "Pesel")
-        private final String pesel;
+        private String pesel;
 
         @Column(name = "Age")
         private int age;

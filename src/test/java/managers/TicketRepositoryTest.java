@@ -1,76 +1,63 @@
 package managers;
 
-import model.Passenger;
-import model.Train;
-import org.joda.time.DateTime;
-import repositories.TicketRepository;
 import model.Ticket;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import repositories.TicketRepository;
+
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+
 import java.util.List;
 import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-class TicketRepositoryTest {
+public class TicketRepositoryTest {
+    private EntityManagerFactory emf;
     private TicketRepository ticketRepository;
 
     @BeforeEach
     void setUp() {
+        emf = Persistence.createEntityManagerFactory("default");
         ticketRepository = new TicketRepository();
     }
 
     @Test
-    void addTicket() {
-        Passenger passenger = new Passenger("John", "Doe", "john.doe@example.com", 30);
-        Train train = new Train(123, 5, "Station A", "Station B", "12:00");
-        DateTime dateTime = new DateTime();
-        Ticket ticket = new Ticket(UUID.randomUUID(), passenger, train, dateTime);
+    void testAddTicket() {
+        Ticket ticket = new Ticket();
+        // Set ticket properties
         ticketRepository.add(ticket);
-        assertEquals(1, ticketRepository.size());
+        assertNotNull(ticket.getId()); // Ensure that the ticket has been assigned an ID
     }
 
     @Test
-    void removeTicket() {
-        Passenger passenger = new Passenger("John", "Doe", "john.doe@example.com", 30);
-        Train train = new Train(123, 5, "Station A", "Station B", "12:00");
-        DateTime dateTime = new DateTime();
-        Ticket ticket = new Ticket(UUID.randomUUID(), passenger, train, dateTime);
+    void testRemoveTicket() {
+        // Create a new ticket or obtain an existing one
+        Ticket ticket = new Ticket();
+        // Set ticket properties
         ticketRepository.add(ticket);
+        UUID ticketId = ticket.getId();
+
         ticketRepository.remove(ticket);
-        assertEquals(0, ticketRepository.size());
+
+        // Try to get the ticket again using the ID and assert that it should be null
+        Ticket removedTicket = ticketRepository.getByUUID(ticketId);
+        assertNull(removedTicket);
     }
 
     @Test
-    void getTickets() {
-        Passenger passenger1 = new Passenger("John", "Doe", "john.doe@example.com", 30);
-        Train train1 = new Train(123, 5, "Station A", "Station B", "12:00");
-        DateTime dateTime1 = new DateTime();
-        Ticket ticket1 = new Ticket(UUID.randomUUID(), passenger1, train1, dateTime1);
-        Passenger passenger2 = new Passenger("Bob", "Smith", "bob.smith@example.com", 20);
-        Train train2 = new Train(100, 50, "Station C", "Station D", "16:00");
-        DateTime dateTime2 = new DateTime();
-        Ticket ticket2 = new Ticket(UUID.randomUUID(), passenger2, train2, dateTime2);
+    void testGetTickets() {
+        // Create and add multiple tickets
+        Ticket ticket1 = new Ticket();
+        // Set ticket properties
         ticketRepository.add(ticket1);
+
+        Ticket ticket2 = new Ticket();
+        // Set ticket properties
         ticketRepository.add(ticket2);
+
         List<Ticket> tickets = ticketRepository.getTickets();
-        assertEquals(2, tickets.size());
-        assertTrue(tickets.contains(ticket1));
-        assertTrue(tickets.contains(ticket2));
-    }
-
-    @Test
-    void generateReport() {
-        Passenger passenger1 = new Passenger("John", "Doe", "john.doe@example.com", 30);
-        Train train1 = new Train(123, 5, "Station A", "Station B", "12:00");
-        DateTime dateTime1 = new DateTime();
-        Ticket ticket1 = new Ticket(UUID.randomUUID(), passenger1, train1, dateTime1);
-        Passenger passenger2 = new Passenger("Bob", "Smith", "bob.smith@example.com", 20);
-        Train train2 = new Train(100, 50, "Station C", "Station D", "16:00");
-        DateTime dateTime2 = new DateTime();
-        Ticket ticket2 = new Ticket(UUID.randomUUID(), passenger2, train2, dateTime2);
-        ticketRepository.add(ticket1);
-        ticketRepository.add(ticket2);
-        String expectedReport = ticket1.getInfo() + "\n" + ticket2.getInfo() + "\n";
-        assertEquals(expectedReport, ticketRepository.report());
+        assertEquals(2, tickets.size()); // Ensure that all tickets have been retrieved
     }
 }

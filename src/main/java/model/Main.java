@@ -2,7 +2,6 @@ package model;
 import managers.PassengerManager;
 import managers.TicketManager;
 import managers.TrainManager;
-import menu.TerminalMenu;
 import repositories.PassengerRepository;
 import repositories.TicketRepository;
 import repositories.TrainRepository;
@@ -18,9 +17,5 @@ public class Main {
         TicketRepository currentTickets = new TicketRepository();
         TicketRepository archiveTickets = new TicketRepository();
         TicketManager ticketManager = new TicketManager(currentTickets, archiveTickets);
-
-        TerminalMenu menu = new TerminalMenu(passengerManager, trainManager, ticketManager);
-
-        menu.start();
     }
 }

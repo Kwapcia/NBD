@@ -3,6 +3,7 @@ import model.Train;
 import repositories.TrainRepository;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 public class TrainManager implements Serializable {
         private TrainRepository trainRepository;
@@ -14,7 +15,7 @@ public class TrainManager implements Serializable {
             this.trainRepository = trainRepository;
         }
 
-        public Train registerTrain(int basePrice, int id, String seat, String startingLocation, String destination) {
+        public Train registerTrain(int basePrice, UUID id, String seat, String startingLocation, String destination) {
             Train trainCheck = getTrain(id);
             if (trainCheck == null) {
                 Train newTrain = new Train(basePrice, id, seat, startingLocation, destination);
@@ -35,7 +36,7 @@ public class TrainManager implements Serializable {
             train.setArchiveStatus(true);
         }
 
-        public Train getTrain(int id) {
+        public Train getTrain(UUID id) {
             for (Train train : trainRepository.getTrains()) {
                 if (train.getId() == id) {
                     return train;
@@ -54,9 +55,5 @@ public class TrainManager implements Serializable {
                 }
             }
             return null;
-        }
-
-        public String getAllTrainsReport() {
-            return trainRepository.report();
         }
 }

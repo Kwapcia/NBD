@@ -1,22 +1,24 @@
 package model;
 
 import jakarta.persistence.*;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Access(AccessType.FIELD)
 @Table(name = "Trains")
-
+@NoArgsConstructor
 //potrzebny hashcode i equals?
-public class Train implements Serializable {
+public class Train extends AbstractEntity {
+        @Id
+        @GeneratedValue(strategy = GenerationType.AUTO)
+        private UUID id;
 
         @Column(name = "Base_Price")
         private int basePrice;
-
-        @Column(name = "ID")
-        private int id;
 
         @Column(name = "Seat_Number")
         private String seat;
@@ -30,7 +32,7 @@ public class Train implements Serializable {
         @Column(name = "Is_Archived")
         private boolean isArchive;
 
-        public Train(int basePrice, int id, String seat, String startingLocation, String destination) {
+        public Train(int basePrice, UUID id, String seat, String startingLocation, String destination) {
             this.basePrice = basePrice;
             this.id = id;
             this.seat = seat;
@@ -40,9 +42,6 @@ public class Train implements Serializable {
 
             if (basePrice <= 0) {
                 throw new IllegalArgumentException("Invalid basePrice!");
-            }
-            if (id <= 0) {
-                throw new IllegalArgumentException("Invalid id");
             }
             if (seat.isEmpty()) {
                 throw new IllegalArgumentException("Invalid seat (can't be empty)!");
@@ -60,7 +59,7 @@ public class Train implements Serializable {
             return basePrice;
         }
 
-        public int getId() {
+        public UUID getId() {
             return id;
         }
 

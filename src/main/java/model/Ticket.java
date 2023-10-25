@@ -1,5 +1,7 @@
 package model;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import lombok.NoArgsConstructor;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 import org.joda.time.PeriodType;
@@ -11,16 +13,19 @@ import java.util.UUID;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Access(AccessType.FIELD)
 @Table(name = "Tickets")
+@NoArgsConstructor
+public class Ticket extends AbstractEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
-public class Ticket implements Serializable {
-    @Column(name = "Id")
-    private final UUID id;
-
-    @Column(name = "Passenger_Info") //?
-    private final Passenger passenger;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE) //slajd 44
+    @JoinColumn
+    @NotNull
+    private Passenger passenger;
 
     @ManyToOne(cascade = CascadeType.REMOVE)
-    private final Train train;
+    private Train train;
 
     @Column(name = "Begin_Time")
     private DateTime beginTime;
@@ -52,7 +57,6 @@ public class Ticket implements Serializable {
     }
 
     // Getters
-    @OneToMany(mappedBy = "Passenger") //ticket może mieć tylko jednego passenger a passenger może mieć wiele ticketsów, mappedby-> dwukierunkowa
     public String getInfo() {
         String beginTimeString = beginTime != null ? beginTime.toString() : "Not set";
         String endTimeString = endTime != null ? endTime.toString() : "Not set";

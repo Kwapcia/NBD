@@ -3,20 +3,15 @@ package repositories;
 import java.util.List;
 import java.util.function.Predicate;
 
-    public interface Repository<T> {
+public interface Repository<T> {
 
-        T get(int id);
+    T get(int id);
 
-        void add(T element);
+    void add(T element);
 
-        T find(Predicate<T> predicate);
+    T update(T t);
 
-        List<T> findAll(Predicate<T> predicate);
-
-        String report();
-
-        int size();
-
-        void remove(T element);
+    void remove(T element);
 
 }
+

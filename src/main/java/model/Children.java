@@ -1,15 +1,17 @@
 package model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 
 @Entity
 @DiscriminatorValue(value = "Child")
 
-public class Children implements PassengerType, Serializable {
+public class Children extends PassengerType{
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
     @Column(name = "Discount")
     public String discount = "25%";

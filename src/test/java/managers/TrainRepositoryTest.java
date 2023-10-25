@@ -1,54 +1,63 @@
 package managers;
 
-import repositories.TrainRepository;
 import model.Train;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+import repositories.TrainRepository;
+
 import java.util.List;
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-class TrainRepositoryTest {
+public class TrainRepositoryTest {
+    private EntityManagerFactory emf;
     private TrainRepository trainRepository;
 
     @BeforeEach
     void setUp() {
+        emf = Persistence.createEntityManagerFactory("default");
         trainRepository = new TrainRepository();
     }
 
     @Test
-    void addTrain() {
-        Train train = new Train(123, 5, "Station A", "Station B", "12:00");
+    void testAddTrain() {
+        Train train = new Train();
+        // Set train properties
         trainRepository.add(train);
-        assertEquals(1, trainRepository.size());
+        assertNotNull(train.getId()); // Ensure that the train has been assigned an ID
     }
 
     @Test
-    void removeTrain() {
-        Train train = new Train(123, 5, "Station A", "Station B", "12:00");
+    void testRemoveTrain() {
+        // Create a new train or obtain an existing one
+        Train train = new Train();
+        // Set train properties
         trainRepository.add(train);
+        UUID trainId = train.getId();
+
         trainRepository.remove(train);
-        assertEquals(0, trainRepository.size());
+
+        // Try to get the train again using the ID and assert that it should be null
+        Train removedTrain = trainRepository.getByUUID(trainId);
+        assertNull(removedTrain);
     }
 
     @Test
-    void getTrains() {
-        Train train1 = new Train(123, 5, "Station A", "Station B", "12:00");
-        Train train2 = new Train(100, 50, "Station C", "Station D", "16:00");
+    void testGetTrains() {
+        // Create and add multiple trains
+        Train train1 = new Train();
+        // Set train properties
         trainRepository.add(train1);
+
+        Train train2 = new Train();
+        // Set train properties
         trainRepository.add(train2);
+
         List<Train> trains = trainRepository.getTrains();
-        assertEquals(2, trains.size());
-        assertTrue(trains.contains(train1));
-        assertTrue(trains.contains(train2));
-    }
-
-    @Test
-    void generateReport() {
-        Train train1 = new Train(123, 5, "Station A", "Station B", "12:00");
-        Train train2 = new Train(100, 50, "Station C", "Station D", "16:00");
-        trainRepository.add(train1);
-        trainRepository.add(train2);
-        String expectedReport = train1.getInfo() + "\n" + train2.getInfo() + "\n";
-        assertEquals(expectedReport, trainRepository.report());
+        assertEquals(2, trains.size()); // Ensure that all trains have been retrieved
     }
 }

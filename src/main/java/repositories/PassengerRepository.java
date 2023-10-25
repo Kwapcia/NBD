@@ -1,55 +1,50 @@
 package repositories;
-import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
+import model.Ticket;
+import model.Train;
 import repositories.EntityManagerGetter;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.LockModeType;
 import model.Passenger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 public class PassengerRepository implements Repository<Passenger>{
-    @PersistenceContext
-    private EntityManager entityManager;
-    private List<Passenger> passengers = new ArrayList<>();
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
+
 
     public List<Passenger> getPassengers() {
-        return passengers;
+        try(EntityManager em = EntityManagerGetter.getEntityManager()) {
+            CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+            CriteriaQuery<Passenger> criteriaQuery = criteriaBuilder.createQuery(Passenger.class);
+            Root<Passenger> root = criteriaQuery.from(Passenger.class);
+            criteriaQuery.select(root);
+            return em.createQuery(criteriaQuery).getResultList();
+        }
     }
 
     @Override
     public Passenger get(int id) {
-        return null;
+        try (EntityManager em = emf.createEntityManager()) {
+            return em.find(Passenger.class, id);
+        }
     }
 
     @Override
     public void add(Passenger passenger) {
-//        EntityManager em = EntityManagerGetter.getEntityManager();
-//        em.getTransaction().begin();
-//        em.persist(passenger);
-//        em.getTransaction().commit();
-        passengers.add(passenger);
-//        try (EntityManager em = EntityManagerGetter.getEntityManager()) {
-//            try {
-//                em.getTransaction().begin();
-//                Passenger pas = em.merge(passenger);
-//                em.persist(passenger);
-//                em.getTransaction().commit();
-//            } catch (Exception ex){
-//                if(em.getTransaction().isActive())
-//                    em.getTransaction().rollback();
-//                throw new RuntimeException(ex);
-//            }
-//        }
-    }
-
-    @Override
-    public Passenger find(Predicate<Passenger> predicate) {
-        return null;
-    }
-
-    @Override
-    public List<Passenger> findAll(Predicate<Passenger> predicate) {
-        return null;
+        try (EntityManager em = EntityManagerGetter.getEntityManager()) {
+            try {
+                em.getTransaction().begin();
+                Passenger pas = em.merge(passenger);
+                em.persist(passenger);
+                em.getTransaction().commit();
+            } catch (Exception ex){
+                if(em.getTransaction().isActive())
+                    em.getTransaction().rollback();
+                throw new RuntimeException(ex);
+            }
+        }
     }
 
     @Override
@@ -69,17 +64,24 @@ public class PassengerRepository implements Repository<Passenger>{
     }
 
     @Override
-    public String report() {
-        StringBuilder report = new StringBuilder();
-        for (Passenger passenger : passengers) {
-            report.append(passenger.getInfo()).append("\n");
+    public Passenger update(Passenger passenger) {
+        try (EntityManager em = emf.createEntityManager()) {
+            em.getTransaction().begin();
+            Passenger newPassenger = em.find(Passenger.class, passenger.getPesel());
+            em.getTransaction().commit();
+            return newPassenger;
         }
-        return report.toString();
     }
 
-    @Override
-    public int size() {
-        return 0;
+    public Passenger getByPesel(String pesel) {
+        try (EntityManager em = EntityManagerGetter.getEntityManager()) {
+            CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+            CriteriaQuery<Passenger> criteriaQuery = criteriaBuilder.createQuery(Passenger.class);
+            Root<Passenger> root = criteriaQuery.from(Passenger.class);
+            criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("pesel"), pesel));
+            return em.createQuery(criteriaQuery).getSingleResult();
+        } catch (NoResultException e) {
+            return null; // Return null if passenger with the specified PESEL is not found
+        }
     }
-
 }

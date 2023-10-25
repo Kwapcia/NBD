@@ -46,9 +46,4 @@ public class PassengerManager implements Serializable {
             }
             return null;
         }
-
-        public String getAllPassengersReport() {
-            return passengerRepository.report();
-        }
-
 }

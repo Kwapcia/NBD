@@ -1,46 +1,44 @@
 package repositories;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.Persistence;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
+import model.Ticket;
 import model.Train;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Predicate;
 
 public class TrainRepository implements Repository<Train>{
-    private List<Train> trains = new ArrayList<>();
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
 
     public List<Train> getTrains() {
-        return trains;
-//        try(EntityManager em = EntityManagerGetter.getEntityManager()) {
-//            CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-//            CriteriaQuery<Train>criteriaQuery = criteriaBuilder.createQuery(Train.class);
-//            Root<Train> root = criteriaQuery.from(Train.class);
-//            criteriaQuery.select(root);
-//            return em.createQuery(criteriaQuery).getResultList();
-//        }
+        try(EntityManager em = EntityManagerGetter.getEntityManager()) {
+            CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+            CriteriaQuery<Train>criteriaQuery = criteriaBuilder.createQuery(Train.class);
+            Root<Train> root = criteriaQuery.from(Train.class);
+            criteriaQuery.select(root);
+            return em.createQuery(criteriaQuery).getResultList();
+        }
     }
 
     public void add(Train train) {
-        trains.add(train);
-//        try(EntityManager em =EntityManagerGetter.getEntityManager()) {
-//            try {
-//                em.getTransaction().begin();
-//                em.persist(train);
-//                em.getTransaction().commit();
-//            }catch (Exception ex) {
-//                if(em.getTransaction().isActive())
-//                    em.getTransaction().rollback();
-//            }
-//        }
+        try(EntityManager em =EntityManagerGetter.getEntityManager()) {
+            try {
+                em.getTransaction().begin();
+                em.persist(train);
+                em.getTransaction().commit();
+            }catch (Exception ex) {
+                if(em.getTransaction().isActive())
+                    em.getTransaction().rollback();
+            }
+        }
 
-    }
-
-    @Override
-    public Train find(Predicate<Train> predicate) {
-        return null;
     }
 
     public void remove(Train train) {
@@ -57,27 +55,34 @@ public class TrainRepository implements Repository<Train>{
         }
     }
 
-    public String report() {
-        StringBuilder report = new StringBuilder();
-        for (Train train : trains) {
-            report.append(train.getInfo()).append("\n");
-        }
-        return report.toString();
-    }
-
     @Override
     public Train get(int id) {
-        return null;
+        try (EntityManager em = emf.createEntityManager()) {
+            return em.find(Train.class, id);
+        }
     }
 
     @Override
-    public List<Train> findAll(Predicate<Train> predicate) {
-        return new ArrayList<>();
+    public Train update(Train train) {
+        try (EntityManager em = emf.createEntityManager()) {
+            em.getTransaction().begin();
+            Train newTrain = em.find(Train.class, train.getId());
+            em.getTransaction().commit();
+            return newTrain;
+        }
     }
 
-    //nigdzie nie wykorzystane ale musi być bo krzyczy
-    @Override
-    public int size() {
-        return trains.size();
+    public Train getByUUID(UUID uuid) {
+        try (EntityManager em = EntityManagerGetter.getEntityManager()) {
+            CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+            CriteriaQuery<Train> criteriaQuery = criteriaBuilder.createQuery(Train.class);
+            Root<Train> root = criteriaQuery.from(Train.class);
+            criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("id"), uuid));
+            try {
+                return em.createQuery(criteriaQuery).getSingleResult();
+            } catch (NoResultException e) {
+                return null; // Return null if ticket with the specified UUID is not found
+            }
+        }
     }
 }
