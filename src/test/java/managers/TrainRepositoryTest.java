@@ -44,16 +44,19 @@ public class TrainRepositoryTest {
 
     @Test
     void testAddTrain() {
+//        Train train = new Train();
+//        //TrainRepository trainRepository = new TrainRepository();;
+//        // Set train properties
+//        trainRepository.add(train);
+//        assertNotNull(train.getId()); // Ensure that the train has been assigned an ID
+//        EntityTransaction transaction = em.getTransaction();
+//        transaction.begin();
+//        em.persist(train);
+//        transaction.commit();
         Train train = new Train();
-        //TrainRepository trainRepository = new TrainRepository();;
-        // Set train properties
         trainRepository.add(train);
-        assertNotNull(train.getId()); // Ensure that the train has been assigned an ID
-        EntityTransaction transaction = em.getTransaction();
-        transaction.begin();
-        em.persist(train);
-        transaction.commit();
-    }
+        assertNotNull(train.getId());
+      }
 
     @Test
     void testRemoveTrain() {

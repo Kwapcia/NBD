@@ -56,10 +56,22 @@ public class TrainRepository implements Repository<Train>{
     }
 protected EntityManager entityManager;
     public void remove(Train train) {
-        EntityTransaction entityTransaction = entityManager.getTransaction();
-        entityTransaction.begin();
-        entityManager.remove(train);
-        entityTransaction.commit();
+        try (EntityManager em = EntityManagerGetter.getEntityManager()){
+            try {
+                em.getTransaction().begin();
+                Train t = em.merge(train);
+                em.remove(t);
+                em.getTransaction().commit();
+            }catch (Exception ex) {
+                if(em.getTransaction().isActive())
+                    em.getTransaction().rollback();
+                throw new RuntimeException(ex);
+            }
+        }
+//        EntityTransaction entityTransaction = entityManager.getTransaction();
+//        entityTransaction.begin();
+//        entityManager.remove(train);
+//        entityTransaction.commit();
 //        try (EntityManager em = EntityManagerGetter.getEntityManager()){
 //            try {
 //                em.getTransaction().begin();
