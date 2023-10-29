@@ -1,6 +1,9 @@
 package managers;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import model.Ticket;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import repositories.TicketRepository;
@@ -15,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TicketRepositoryTest {
     private EntityManagerFactory emf;
+    private EntityManager em;
     private TicketRepository ticketRepository;
 
     @BeforeEach
@@ -23,8 +27,22 @@ public class TicketRepositoryTest {
         ticketRepository = new TicketRepository();
     }
 
+    @AfterEach
+    void afterAll(){
+        if(emf!=null)
+            emf.close();
+        if(em!=null)
+            em.close();
+    }
     @Test
     void testAddTicket() {
+//        Ticket ticket = new Ticket();
+//        ticketRepository.add(ticket);
+//        assertNotNull(ticket.getId());
+//        EntityTransaction transaction = em.getTransaction();
+//        transaction.begin();
+//        em.persist(ticket);
+//        transaction.commit();
         Ticket ticket = new Ticket();
         // Set ticket properties
         ticketRepository.add(ticket);

@@ -37,7 +37,8 @@ public class TicketRepository implements Repository<Ticket> {
         try (EntityManager em = EntityManagerGetter.getEntityManager()){
             try {
                 em.getTransaction().begin();
-                em.remove(ticket);
+                Ticket t = em.merge(ticket);
+                em.remove(t);
                 em.getTransaction().commit();
             } catch (Exception ex){
                 if (em.getTransaction().isActive())
