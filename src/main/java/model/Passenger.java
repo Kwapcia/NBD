@@ -7,7 +7,7 @@ import java.util.UUID;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Access(AccessType.FIELD)
-@Table(name = "Tickets")
+@Table(name = "Passengers")
 @NoArgsConstructor
 
 public class Passenger extends AbstractEntity {

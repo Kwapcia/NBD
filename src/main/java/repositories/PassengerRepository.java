@@ -46,6 +46,7 @@ public class PassengerRepository implements Repository<Passenger>{
                 throw new RuntimeException(ex);
             }
         }
+
     }
 
     @Override
