@@ -58,7 +58,7 @@ public class TicketRepository implements Repository<Ticket> {
     }
 
     @Override
-    public Ticket get(int id) {
+    public Ticket get(UUID id) {
         try (EntityManager em = emf.createEntityManager()) {
             return em.find(Ticket.class, id);
         }

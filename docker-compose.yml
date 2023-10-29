@@ -9,13 +9,14 @@ services:
       POSTGRES_USER: nbd
       POSTGRES_PASSWORD: nbdpassword
     ports:
-      - 5432:5432
+      - 5433:5432
     volumes:
-      - pg:/var/lib/postgresql/data
+      - db:/var/lib/postgresql/data
   adminer:
     image: adminer
     restart: always
     ports:
       - 8080:8080
 volumes:
-  pg:
+  db:
+    driver: local

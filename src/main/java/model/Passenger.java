@@ -1,10 +1,8 @@
 package model;
 import jakarta.persistence.*;
-import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
+import java.util.UUID;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -12,21 +10,19 @@ import java.io.Serializable;
 @Table(name = "Tickets")
 @NoArgsConstructor
 
-//@Transactional(isolation = IsolationLevel.REPEATABLE_READ)
-//@Transactional(R)
 public class Passenger extends AbstractEntity {
 
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
-        private long id;
+        private UUID id;
         @Column(name = "First_Name")
         private String firstName;
 
         @Column(name = "Last_Name")
         private String lastName;
 
-        @Column(name = "Pesel")
-        private String pesel;
+//        @Column(name = "Pesel")
+//        private String pesel;
 
         @Column(name = "Age")
         private int age;
@@ -37,7 +33,7 @@ public class Passenger extends AbstractEntity {
         @ManyToOne
         private PassengerType passengerType;
 
-        public Passenger(String firstName, String lastName, String pesel, int age) {
+        public Passenger(String firstName, String lastName, UUID id, int age) {
 
             if (firstName == null || firstName.isEmpty()) {
                 throw new IllegalArgumentException("Invalid firstName (can't be empty)!");
@@ -45,8 +41,8 @@ public class Passenger extends AbstractEntity {
             if (lastName == null || lastName.isEmpty()) {
                 throw new IllegalArgumentException("Invalid lastName (can't be empty)!");
             }
-            if (pesel == null || pesel.isEmpty()) {
-                throw new IllegalArgumentException("Invalid pesel (can't be empty)!");
+            if (id == null) {
+                throw new IllegalArgumentException("Invalid id (can't be empty)!");
             }
             if (age <= 0) {
                 throw new IllegalArgumentException("Invalid age!");
@@ -57,7 +53,7 @@ public class Passenger extends AbstractEntity {
 
             this.firstName = firstName;
             this.lastName = lastName;
-            this.pesel = pesel;
+            this.id = id;
             this.age = age;
             this.isArchive = false;
 
@@ -72,8 +68,8 @@ public class Passenger extends AbstractEntity {
 
         // Getters
         public String getInfo() {
-            return "First name: " + getFirstName() + ", last name: " + getLastName() + ", pesel: " +
-                    getPesel() + ", age: " + getAge() + ", passenger type: " + getPassengerType().getTypeInfo() +
+            return "First name: " + getFirstName() + ", last name: " + getLastName() + ", id: " +
+                    getID() + ", age: " + getAge() + ", passenger type: " + getPassengerType().getTypeInfo() +
                     ", is archive: " + (isArchive ? "true" : "false");
         }
 
@@ -85,8 +81,8 @@ public class Passenger extends AbstractEntity {
             return lastName;
         }
 
-        public String getPesel() {
-            return pesel;
+        public UUID getID() {
+            return id;
         }
 
         public int getAge() {

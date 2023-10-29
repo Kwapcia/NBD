@@ -9,9 +9,6 @@ import java.io.Serializable;
 
 public class Adult extends PassengerType{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
     @Column(name = "Discount")
     public String discount = "0%";
 

@@ -1,6 +1,7 @@
 package managers;
 
 import model.Train;
+import repositories.EntityManagerGetter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,16 +17,22 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TrainRepositoryTest {
     private EntityManagerFactory emf;
     private TrainRepository trainRepository;
-
+    //private Train testTrain;
+    //private Train testTrain2;
     @BeforeEach
     void setUp() {
         emf = Persistence.createEntityManagerFactory("default");
         trainRepository = new TrainRepository();
+        //TrainRepository trainRepository = new TrainRepository();
+       // testTrain = new Train(20,UUID.randomUUID(),"3","Łódź","Wrocław");
+       // testTrain2 = new Train(25,UUID.randomUUID(),"6","Warszawa","Łódź");
     }
+
 
     @Test
     void testAddTrain() {
         Train train = new Train();
+        //TrainRepository trainRepository = new TrainRepository();;
         // Set train properties
         trainRepository.add(train);
         assertNotNull(train.getId()); // Ensure that the train has been assigned an ID

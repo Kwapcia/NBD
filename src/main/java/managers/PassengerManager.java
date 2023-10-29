@@ -5,6 +5,7 @@ import model.Senior;
 import repositories.PassengerRepository;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 public class PassengerManager implements Serializable {
         private PassengerRepository passengerRepository;
@@ -16,10 +17,10 @@ public class PassengerManager implements Serializable {
             this.passengerRepository = passengerRepository;
         }
 
-        public Passenger registerPassenger(String firstName, String lastName, String personalID, int age) {
-            Passenger passengerCheck = getPassenger(personalID);
+        public Passenger registerPassenger(String firstName, String lastName, UUID id, int age) {
+            Passenger passengerCheck = getPassenger(id);
             if (passengerCheck == null) {
-                Passenger newPassenger = new Passenger(firstName, lastName, personalID, age);
+                Passenger newPassenger = new Passenger(firstName, lastName, id, age);
                 passengerRepository.add(newPassenger);
                 return newPassenger;
             } else {
@@ -38,9 +39,9 @@ public class PassengerManager implements Serializable {
             passenger.setArchiveStatus(true);
         }
 
-        public Passenger getPassenger(String personalID) {
+        public Passenger getPassenger(UUID id) {
             for (Passenger passenger : passengerRepository.getPassengers()) {
-                if (passenger.getPesel().equals(personalID)) {
+                if (passenger.getID().equals(id)) {
                     return passenger;
                 }
             }

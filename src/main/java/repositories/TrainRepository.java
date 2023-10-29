@@ -1,9 +1,6 @@
 package repositories;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.NoResultException;
-import jakarta.persistence.Persistence;
+import jakarta.persistence.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
@@ -28,35 +25,44 @@ public class TrainRepository implements Repository<Train>{
     }
 
     public void add(Train train) {
-        try(EntityManager em =EntityManagerGetter.getEntityManager()) {
-            try {
-                em.getTransaction().begin();
-                em.persist(train);
-                em.getTransaction().commit();
-            }catch (Exception ex) {
-                if(em.getTransaction().isActive())
-                    em.getTransaction().rollback();
-            }
-        }
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+        entityManager.persist(train);
+        entityTransaction.commit();
+
+//        try(EntityManager em =EntityManagerGetter.getEntityManager()) {
+//            try {
+//                em.getTransaction().begin();
+//                em.persist(train);
+//                em.getTransaction().commit();
+//            }catch (Exception ex) {
+//                if(em.getTransaction().isActive())
+//                    em.getTransaction().rollback();
+//            }
+//        }
 
     }
-
+protected EntityManager entityManager;
     public void remove(Train train) {
-        try (EntityManager em = EntityManagerGetter.getEntityManager()){
-            try {
-                em.getTransaction().begin();
-                em.remove(train);
-                em.getTransaction().commit();
-            } catch (Exception ex) {
-                if(em.getTransaction().isActive())
-                    em.getTransaction().rollback();
-                throw new RuntimeException(ex);
-            }
-        }
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+        entityManager.remove(train);
+        entityTransaction.commit();
+//        try (EntityManager em = EntityManagerGetter.getEntityManager()){
+//            try {
+//                em.getTransaction().begin();
+//                em.remove(train);
+//                em.getTransaction().commit();
+//            } catch (Exception ex) {
+//                if(em.getTransaction().isActive())
+//                    em.getTransaction().rollback();
+//                throw new RuntimeException(ex);
+//            }
+//        }
     }
 
     @Override
-    public Train get(int id) {
+    public Train get(UUID id) {
         try (EntityManager em = emf.createEntityManager()) {
             return em.find(Train.class, id);
         }

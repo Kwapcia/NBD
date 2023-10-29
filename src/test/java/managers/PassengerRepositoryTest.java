@@ -1,20 +1,35 @@
 package managers;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import model.Passenger;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import repositories.PassengerRepository;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PassengerRepositoryTest {
-    private EntityManagerFactory emf;
+    private  EntityManagerFactory emf;
+    private EntityManager em;
     private PassengerRepository passengerRepository;
 
     @BeforeEach
     void setUp() {
         emf = Persistence.createEntityManagerFactory("default");
+        EntityManager em = emf.createEntityManager();
         passengerRepository = new PassengerRepository();
+    }
+    @AfterEach
+     void afterAll(){
+        if(emf !=null){
+            //em.close();
+            emf.close();
+        }
     }
 
     @Test
@@ -24,8 +39,8 @@ public class PassengerRepositoryTest {
 
     @Test
     void testGetPassengerById() {
-        int passengerId = 1; // Replace with an actual passenger ID
-        Passenger passenger = passengerRepository.get(passengerId);
+        UUID id = UUID.randomUUID();
+        Passenger passenger = passengerRepository.get(id);
         assertNotNull(passenger);
     }
 
@@ -34,7 +49,12 @@ public class PassengerRepositoryTest {
         Passenger passenger = new Passenger();
         // Set passenger properties
         passengerRepository.add(passenger);
-        assertNotNull(passenger.getPesel()); // Ensure that the passenger has been assigned an ID
+        assertNotNull(passenger.getID()); // Ensure that the passenger has been assigned an ID
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+        em.persist(passenger);
+        transaction.commit();
+
     }
 
     @Test
@@ -43,14 +63,11 @@ public class PassengerRepositoryTest {
         Passenger passenger = new Passenger();
         // Set passenger properties
         passengerRepository.add(passenger);
-        String passengerId = passenger.getPesel();
-
+        assertNotNull(passenger.getID());
         passengerRepository.remove(passenger);
 
-        int intPassengerId = Integer.parseInt(passengerId);
-
         // Try to get the passenger again and assert that it should be null
-        Passenger removedPassenger = passengerRepository.get(intPassengerId);
+        PassengerRepository removedPassenger = passengerRepository;
         assertNull(removedPassenger);
     }
 
@@ -69,17 +86,17 @@ public class PassengerRepositoryTest {
         // Add assertions to check if the passenger has been updated correctly
     }
 
-    @Test
-    void testGetPassengerByPesel() {
-        String pesel = "12345678901"; // Replace with an actual PESEL
-        Passenger passenger = passengerRepository.getByPesel(pesel);
-        assertNotNull(passenger);
-    }
+//    @Test
+//    void testGetPassengerByPesel() {
+//        String pesel = "12345678901"; // Replace with an actual PESEL
+//        Passenger passenger = passengerRepository.getByPesel(pesel);
+//        assertNotNull(passenger);
+//    }
 
-    @Test
-    void testGetNonExistentPassengerByPesel() {
-        String pesel = "nonexistent_pesel"; // Replace with a non-existent PESEL
-        Passenger passenger = passengerRepository.getByPesel(pesel);
-        assertNull(passenger);
-    }
+//    @Test
+//    void testGetNonExistentPassengerByPesel() {
+//        String pesel = "nonexistent_pesel"; // Replace with a non-existent PESEL
+//        Passenger passenger = passengerRepository.getByPesel(pesel);
+//        assertNull(passenger);
+//    }
 }
