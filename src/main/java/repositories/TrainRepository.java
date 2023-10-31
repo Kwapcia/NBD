@@ -37,22 +37,6 @@ public class TrainRepository implements Repository<Train>{
                 throw new RuntimeException(ex);
             }
         }
-//        EntityTransaction entityTransaction = entityManager.getTransaction();
-//        entityTransaction.begin();
-//        entityManager.persist(train);
-//        entityTransaction.commit();
-
-//        try(EntityManager em =EntityManagerGetter.getEntityManager()) {
-//            try {
-//                em.getTransaction().begin();
-//                em.persist(train);
-//                em.getTransaction().commit();
-//            }catch (Exception ex) {
-//                if(em.getTransaction().isActive())
-//                    em.getTransaction().rollback();
-//            }
-//        }
-
     }
 protected EntityManager entityManager;
     public void remove(Train train) {
@@ -68,21 +52,6 @@ protected EntityManager entityManager;
                 throw new RuntimeException(ex);
             }
         }
-//        EntityTransaction entityTransaction = entityManager.getTransaction();
-//        entityTransaction.begin();
-//        entityManager.remove(train);
-//        entityTransaction.commit();
-//        try (EntityManager em = EntityManagerGetter.getEntityManager()){
-//            try {
-//                em.getTransaction().begin();
-//                em.remove(train);
-//                em.getTransaction().commit();
-//            } catch (Exception ex) {
-//                if(em.getTransaction().isActive())
-//                    em.getTransaction().rollback();
-//                throw new RuntimeException(ex);
-//            }
-//        }
     }
 
     @Override

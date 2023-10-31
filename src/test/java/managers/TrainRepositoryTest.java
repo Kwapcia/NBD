@@ -21,16 +21,11 @@ public class TrainRepositoryTest {
     private EntityManagerFactory emf;
     private EntityManager em;
     private TrainRepository trainRepository;
-    //private Train testTrain;
-    //private Train testTrain2;
     @BeforeEach
     void setUp() {
         emf = Persistence.createEntityManagerFactory("default");
         EntityManager em = emf.createEntityManager();
         trainRepository = new TrainRepository();
-        //TrainRepository trainRepository = new TrainRepository();
-       // testTrain = new Train(20,UUID.randomUUID(),"3","Łódź","Wrocław");
-       // testTrain2 = new Train(25,UUID.randomUUID(),"6","Warszawa","Łódź");
     }
     @AfterEach
     void afterAll(){
@@ -44,15 +39,6 @@ public class TrainRepositoryTest {
 
     @Test
     void testAddTrain() {
-//        Train train = new Train();
-//        //TrainRepository trainRepository = new TrainRepository();;
-//        // Set train properties
-//        trainRepository.add(train);
-//        assertNotNull(train.getId()); // Ensure that the train has been assigned an ID
-//        EntityTransaction transaction = em.getTransaction();
-//        transaction.begin();
-//        em.persist(train);
-//        transaction.commit();
         Train train = new Train();
         trainRepository.add(train);
         assertNotNull(train.getId());

@@ -3,14 +3,12 @@ import jakarta.persistence.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
-import model.Ticket;
-import model.Train;
-import repositories.EntityManagerGetter;
+import jakarta.persistence.LockModeType;
 import model.Passenger;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.UUID;
-import java.util.function.Predicate;
+
 public class PassengerRepository implements Repository<Passenger>{
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
 
@@ -37,8 +35,9 @@ public class PassengerRepository implements Repository<Passenger>{
         try (EntityManager em = EntityManagerGetter.getEntityManager()) {
             try {
                 em.getTransaction().begin();
-                Passenger pas = em.merge(passenger);
-                em.persist(pas);
+                //Passenger pas = em.merge(passenger);
+                Passenger pas = em.find(Passenger.class,passenger.getID(), LockModeType.OPTIMISTIC_FORCE_INCREMENT);
+                em.persist(passenger);
                 em.getTransaction().commit();
             } catch (Exception ex){
                 if(em.getTransaction().isActive())

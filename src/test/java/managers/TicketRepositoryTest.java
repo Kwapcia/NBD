@@ -36,13 +36,6 @@ public class TicketRepositoryTest {
     }
     @Test
     void testAddTicket() {
-//        Ticket ticket = new Ticket();
-//        ticketRepository.add(ticket);
-//        assertNotNull(ticket.getId());
-//        EntityTransaction transaction = em.getTransaction();
-//        transaction.begin();
-//        em.persist(ticket);
-//        transaction.commit();
         Ticket ticket = new Ticket();
         // Set ticket properties
         ticketRepository.add(ticket);
