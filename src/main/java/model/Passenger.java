@@ -30,7 +30,8 @@ public class Passenger extends AbstractEntity {
         @Column(name = "Is_Archived")
         private boolean isArchive;
 
-        @ManyToOne
+        @ManyToOne(cascade = CascadeType.PERSIST)
+        @JoinColumn (name= "Type_id")
         private PassengerType passengerType;
 
         public Passenger(String firstName, String lastName, UUID id, int age) {

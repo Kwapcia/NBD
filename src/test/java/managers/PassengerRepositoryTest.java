@@ -96,15 +96,11 @@ public class PassengerRepositoryTest {
         newPassenger.setFirstName(newFirstName);
         newPassenger.setLastName(newLastName);
         newPassenger.setAge(newAge);
-        Passenger upPass = passengerRepository.update(newPassenger);
-        Passenger rePass = passengerRepository.get(passId);
-        assertNotNull(upPass);
-        assertEquals(newFirstName,upPass.getFirstName());
-        assertEquals(newLastName,upPass.getLastName());
-        assertEquals(newAge,upPass.getAge());
+        passengerRepository.update(newPassenger);
+        Passenger rePass = passengerRepository.get(newPassenger.getID());
         assertNotNull(rePass);
         assertEquals(newFirstName,rePass.getFirstName());
-        assertEquals(newLastName,upPass.getLastName());
-        assertEquals(newAge,upPass.getAge());
+        assertEquals(newLastName,rePass.getLastName());
+        assertEquals(newAge,rePass.getAge());
     }
 }

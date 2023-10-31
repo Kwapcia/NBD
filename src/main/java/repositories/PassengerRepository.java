@@ -70,10 +70,21 @@ public class PassengerRepository implements Repository<Passenger>{
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
             Passenger newPassenger = em.find(Passenger.class, passenger.getID());
+            if (newPassenger == null) {
+                // Pasażer o podanym ID nie istnieje, obsłuż błąd lub zwróć null
+                em.getTransaction().rollback();
+                return null;
+            }
+            // Skopiuj dane z przekazanego pasażera do istniejącego pasażera
+            newPassenger.setFirstName(passenger.getFirstName());
+            newPassenger.setLastName(passenger.getLastName());
+            newPassenger.setAge(passenger.getAge());
+
             em.getTransaction().commit();
             return newPassenger;
         }
     }
+
 
     public Passenger getById(UUID id) {
         try (EntityManager em = EntityManagerGetter.getEntityManager()) {
