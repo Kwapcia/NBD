@@ -35,8 +35,9 @@ public class PassengerRepository implements Repository<Passenger>{
         try (EntityManager em = EntityManagerGetter.getEntityManager()) {
             try {
                 em.getTransaction().begin();
-                //Passenger pas = em.merge(passenger);
-                Passenger pas = em.find(Passenger.class,passenger.getID(), LockModeType.OPTIMISTIC_FORCE_INCREMENT);
+                Passenger pas = em.merge(passenger);
+                //Passenger pas = em.find(Passenger.class,passenger.getID(), LockModeType.OPTIMISTIC_FORCE_INCREMENT);
+                em.lock(pas,LockModeType.OPTIMISTIC_FORCE_INCREMENT);
                 em.persist(passenger);
                 em.getTransaction().commit();
             } catch (Exception ex){
