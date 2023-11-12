@@ -6,30 +6,30 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.util.UUID;
 
-@Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@Access(AccessType.FIELD)
-@Table(name = "Trains")
+//@Entity
+//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+//@Access(AccessType.FIELD)
+//@Table(name = "Trains")
 @NoArgsConstructor
 //potrzebny hashcode i equals?
 public class Train extends AbstractEntity {
-        @Id
-        @GeneratedValue(strategy = GenerationType.AUTO)
+//        @Id
+//        @GeneratedValue(strategy = GenerationType.AUTO)
         private UUID id;
 
-        @Column(name = "Base_Price")
+//        @Column(name = "Base_Price")
         private int basePrice;
 
-        @Column(name = "Seat_Number")
+//        @Column(name = "Seat_Number")
         private String seat;
 
-        @Column(name = "Starting_Location")
+//        @Column(name = "Starting_Location")
         private String startingLocation;
 
-        @Column(name = "Destination")
+//        @Column(name = "Destination")
         private String destination;
 
-        @Column(name = "Is_Archived")
+//        @Column(name = "Is_Archived")
         private boolean isArchive;
 
         public Train(int basePrice, UUID id, String seat, String startingLocation, String destination) {

@@ -4,12 +4,12 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 
-@Entity
-@DiscriminatorValue(value = "Child")
+//@Entity
+//@DiscriminatorValue(value = "Child")
 
 public class Children extends PassengerType{
 
-    @Column(name = "Discount")
+    //@Column(name = "Discount")
     public String discount = "25%";
 
     @Override
@@ -17,7 +17,7 @@ public class Children extends PassengerType{
         return 0.75 * price;
     }
 
-    @Override
+   // @Override
     public String getTypeInfo() {
         return "Children";
     }
