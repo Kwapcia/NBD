@@ -17,7 +17,7 @@ public class Adult extends PassengerType{
         return price;
     }
 
-    //@Override
+    @Override
     public String getTypeInfo() {
         return "Adult";
     }

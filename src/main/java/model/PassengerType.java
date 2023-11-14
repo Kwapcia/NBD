@@ -21,5 +21,5 @@ public abstract class PassengerType extends AbstractEntity{
         return price;
     }
 
-    //public abstract String getTypeInfo();
+    public abstract String getTypeInfo();
 }

@@ -1,5 +1,8 @@
 package model.mgd;
 
+import org.bson.codecs.pojo.annotations.BsonCreator;
+import org.bson.codecs.pojo.annotations.BsonProperty;
+
 import java.util.UUID;
 
 public class PassengerMgd extends AbstractEntityMgd{
@@ -30,7 +33,7 @@ public class PassengerMgd extends AbstractEntityMgd{
     public PassengerMgd(@BsonProperty("firstName") String firstName,
                         @BsonProperty("lastName")String lastName,
                         @BsonProperty("id") UUID id,
-                        @BsonProprty("age")int age,
+                        @BsonProperty("age")int age,
                         @BsonProperty("isArchive") boolean isArchive){
         super(id);
         this.firstName = firstName;

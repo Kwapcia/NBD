@@ -1,5 +1,8 @@
 package model.mgd;
 
+import org.bson.codecs.pojo.annotations.BsonCreator;
+import org.bson.codecs.pojo.annotations.BsonProperty;
+
 import java.util.UUID;
 
 public class TrainMgd extends AbstractEntityMgd {
@@ -35,13 +38,13 @@ public class TrainMgd extends AbstractEntityMgd {
 //        this.isArchive = isArchive;
 //    }
     @BsonCreator
-    public TicketMgd(@BsonProperty("id") UUID id,
+    public TrainMgd(@BsonProperty("id") UUID id,
                      @BsonProperty("Base_Price") int basePrice,
                      @BsonProperty("Seat") String seat,
                      @BsonProperty("Starting_Location") String startingLocation,
                      @BsonProperty("Destination") String destination,
                      @BsonProperty("IsArchive") boolean isArchive){
-        this.id = id;
+        super(id);
         this.basePrice = basePrice;
         this.seat = seat;
         this.startingLocation = startingLocation;

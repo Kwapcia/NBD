@@ -13,7 +13,7 @@ public class Senior extends PassengerType {
         return 0.8 * price;
     }
 
-   // @Override
+    @Override
     public String getTypeInfo() {
         return "Senior";
     }

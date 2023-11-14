@@ -17,7 +17,7 @@ public class Children extends PassengerType{
         return 0.75 * price;
     }
 
-   // @Override
+    @Override
     public String getTypeInfo() {
         return "Children";
     }

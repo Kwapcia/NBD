@@ -1,6 +1,8 @@
 package model.mgd;
 
 import model.mapper.PassengerMapper;
+import org.bson.codecs.pojo.annotations.BsonCreator;
+import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.joda.time.DateTime;
 
 import java.util.Date;
@@ -24,7 +26,7 @@ public class TicketMgd extends AbstractEntityMgd{
                      @BsonProperty("Passenger")PassengerMgd passenger,
                      @BsonProperty("Train")TrainMgd train,
                      @BsonProperty("Begin_Time") DateTime beginTime) {
-        this.id = id;
+        super(id);
         this.passenger = passenger;
         this.train = train;
         this.beginTime = beginTime;
