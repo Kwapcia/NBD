@@ -1,34 +1,23 @@
 package model;
-import jakarta.persistence.*;
+
 import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
-//@Entity
-//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-//@Access(AccessType.FIELD)
-//@Table(name = "Passengers")
 @NoArgsConstructor
 
 public class Passenger extends AbstractEntity {
 
-//        @Id
-//        @GeneratedValue(strategy = GenerationType.AUTO)
         private UUID id;
-        //@Column(name = "First_Name")
+
         private String firstName;
 
-        //@Column(name = "Last_Name")
         private String lastName;
 
-        //@Column(name = "Age")
         private int age;
 
-        //@Column(name = "Is_Archived")
         private boolean isArchive;
 
-//        @ManyToOne(cascade = CascadeType.PERSIST)
-//        @JoinColumn (name= "Type_id")
         private PassengerType passengerType;
 
         public Passenger(String firstName, String lastName, UUID id, int age) {

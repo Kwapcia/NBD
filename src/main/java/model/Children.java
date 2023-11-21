@@ -1,15 +1,7 @@
 package model;
 
-import jakarta.persistence.*;
-
-import java.io.Serializable;
-
-//@Entity
-//@DiscriminatorValue(value = "Child")
-
 public class Children extends PassengerType{
 
-    //@Column(name = "Discount")
     public String discount = "25%";
 
     @Override

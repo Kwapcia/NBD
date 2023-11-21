@@ -1,11 +1,7 @@
 package model;
 
-//@Entity
-//@DiscriminatorValue(value = "Senior")
-
 public class Senior extends PassengerType {
 
-    //@Column(name = "Discount")
     public String discount = "20%";
 
     @Override

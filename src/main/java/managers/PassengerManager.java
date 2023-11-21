@@ -2,12 +2,15 @@ package managers;
 
 import model.Passenger;
 import model.Senior;
+import model.mgd.PassengerMgd;
+import repositories.AbstractMongoRepository;
 import repositories.PassengerRepository;
+import repositories.Repository;
 
 import java.io.Serializable;
 import java.util.UUID;
 
-public class PassengerManager implements Serializable {
+public class PassengerManager {
         private PassengerRepository passengerRepository;
 
         public PassengerManager(PassengerRepository passengerRepository) {

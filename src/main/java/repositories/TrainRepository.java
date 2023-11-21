@@ -4,12 +4,9 @@ import jakarta.persistence.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
-import model.Ticket;
 import model.Train;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.function.Predicate;
 
 public class TrainRepository implements Repository<Train>{
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");

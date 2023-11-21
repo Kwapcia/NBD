@@ -1,11 +1,5 @@
 package model;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.experimental.SuperBuilder;
+
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 import org.joda.time.PeriodType;
@@ -13,35 +7,19 @@ import org.joda.time.PeriodType;
 import java.io.Serializable;
 import java.util.UUID;
 
-//@Entity
-//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-//@Access(AccessType.FIELD)
-//@Table(name = "Tickets")
-@Getter
-@Setter
-@ToString
-@NoArgsConstructor
-@SuperBuilder
+
 public class Ticket extends AbstractEntity {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
+
     private UUID id;
 
-//    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-//    @JoinColumn
-//    @NotNull
     private Passenger passenger;
 
-    //@ManyToOne(cascade = CascadeType.REMOVE)
     private Train train;
 
-    //@Column(name = "Begin_Time")
     private DateTime beginTime;
 
-    //@Column(name = "End_Time")
     private DateTime endTime;
 
-    //@Column(name = "Ticket_Price")
     private float ticketCost;
 
     public Ticket(UUID id, Passenger passenger, Train train, DateTime beginTime) {
