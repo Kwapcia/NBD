@@ -1,18 +1,17 @@
 package repositories;
 
+import model.mgd.PassengerMgd;
+
 import java.util.UUID;
 
 public interface Repository<T> {
 
-    //T get(int id);
-
     T get(UUID id);
 
-    void add(T element);
+    void add(T obj) throws Exception;
 
-    T update(T t);
+    void update(T obj) throws Exception;
 
-    void remove(T element);
-
+    void remove(T obj) throws Exception;
 }
 
