@@ -31,5 +31,7 @@ public class TicketMgd extends AbstractEntityMgd{
         this.train = train;
         this.beginTime = beginTime;
     }
-
+    public UUID getId(){
+        return id;
+    }
 }

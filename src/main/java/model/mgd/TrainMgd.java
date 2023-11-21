@@ -51,4 +51,7 @@ public class TrainMgd extends AbstractEntityMgd {
         this.destination = destination;
         this.isArchive = isArchive;
     }
+    public UUID getId(){
+        return id;
+    }
 }

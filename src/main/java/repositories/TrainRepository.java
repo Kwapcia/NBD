@@ -1,84 +1,59 @@
 package repositories;
 
-import jakarta.persistence.*;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
-import model.Train;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Filters;
+import model.mgd.TrainMgd;
+import org.bson.types.ObjectId;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class TrainRepository implements Repository<Train>{
-//    EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
-//
-//    public List<Train> getTrains() {
-//        try(EntityManager em = EntityManagerGetter.getEntityManager()) {
-//            CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-//            CriteriaQuery<Train>criteriaQuery = criteriaBuilder.createQuery(Train.class);
-//            Root<Train> root = criteriaQuery.from(Train.class);
-//            criteriaQuery.select(root);
-//            return em.createQuery(criteriaQuery).getResultList();
-//        }
-//    }
-//
-//    public void add(Train train) {
-//        try (EntityManager em = EntityManagerGetter.getEntityManager()){
-//            try{
-//                em.getTransaction().begin();
-//                Train tr = em.merge(train);
-//                em.persist(tr);
-//                em.getTransaction().commit();
-//            }catch (Exception ex){
-//                if(em.getTransaction().isActive())
-//                    em.getTransaction().rollback();
-//                throw new RuntimeException(ex);
-//            }
-//        }
-//    }
-//protected EntityManager entityManager;
-//    public void remove(Train train) {
-//        try (EntityManager em = EntityManagerGetter.getEntityManager()){
-//            try {
-//                em.getTransaction().begin();
-//                Train t = em.merge(train);
-//                em.remove(t);
-//                em.getTransaction().commit();
-//            }catch (Exception ex) {
-//                if(em.getTransaction().isActive())
-//                    em.getTransaction().rollback();
-//                throw new RuntimeException(ex);
-//            }
-//        }
-//    }
-//
-//    @Override
-//    public Train get(UUID id) {
-//        try (EntityManager em = emf.createEntityManager()) {
-//            return em.find(Train.class, id);
-//        }
-//    }
-//
-//    @Override
-//    public Train update(Train train) {
-//        try (EntityManager em = emf.createEntityManager()) {
-//            em.getTransaction().begin();
-//            Train newTrain = em.find(Train.class, train.getId());
-//            em.getTransaction().commit();
-//            return newTrain;
-//        }
-//    }
-//
-//    public Train getByUUID(UUID uuid) {
-//        try (EntityManager em = EntityManagerGetter.getEntityManager()) {
-//            CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-//            CriteriaQuery<Train> criteriaQuery = criteriaBuilder.createQuery(Train.class);
-//            Root<Train> root = criteriaQuery.from(Train.class);
-//            criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("id"), uuid));
-//            try {
-//                return em.createQuery(criteriaQuery).getSingleResult();
-//            } catch (NoResultException e) {
-//                return null; // Return null if ticket with the specified UUID is not found
-//            }
-//        }
-//    }
+public class TrainRepository extends AbstractMongoRepository implements Repository<TrainMgd> {
+
+    @Override
+    public void close() throws Exception {
+
+    }
+
+    public List<TrainMgd> getTrains() {
+        MongoCollection<TrainMgd> collection = trainStationDB
+                .getCollection("trains",TrainMgd.class);
+        List<TrainMgd> trains = new ArrayList<>();
+        collection.find().into(trains);
+        return trains;
+    }
+
+    @Override
+    public void add(TrainMgd obj) throws Exception {
+        MongoCollection<TrainMgd> collection = trainStationDB
+                .getCollection("trains",TrainMgd.class);
+        collection.insertOne(obj);
+    }
+
+    @Override
+    public void remove(TrainMgd obj) throws Exception {
+        MongoCollection<TrainMgd> collection = trainStationDB
+                .getCollection("trains",TrainMgd.class);
+        collection.deleteOne(Filters.eq("_id",new ObjectId(obj.getId().toString())));
+    }
+
+    @Override
+    public TrainMgd get (UUID id) {
+        MongoCollection<TrainMgd> collection = trainStationDB
+                .getCollection("trains",TrainMgd.class);
+        return collection.find(Filters.eq("_id",new ObjectId(id.toString()))).first();
+    }
+
+    @Override
+    public void update(TrainMgd obj) throws Exception {
+        MongoCollection<TrainMgd> collection = trainStationDB
+                .getCollection("trains",TrainMgd.class);
+        collection.replaceOne(Filters.eq("_id",new ObjectId(obj.getId().toString())),obj);
+    }
+
+    public TrainMgd getById(UUID id) {
+        MongoCollection<TrainMgd> collection = trainStationDB
+                .getCollection("trains",TrainMgd.class);
+        return collection.find(Filters.eq("_id",new ObjectId((id.toString())))).first();
+    }
 }
