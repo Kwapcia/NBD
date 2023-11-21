@@ -6,7 +6,7 @@ import org.bson.codecs.pojo.annotations.BsonProperty;
 import java.util.UUID;
 
 public class TrainMgd extends AbstractEntityMgd {
-    @BsonProperty("id")
+    @BsonProperty("_id")
     private UUID id;
 
     @BsonProperty("Base_Price")
@@ -24,21 +24,8 @@ public class TrainMgd extends AbstractEntityMgd {
     @BsonProperty("IsArchive")
     private boolean isArchive;
 
-//    public TicketMgd(@BsonProperty("id") UUID id,
-//                     @BsonProperty("Base_Price") int basePrice,
-//                     @BsonProperty("Seat") String seat,
-//                     @BsonProperty("Starting_Location") String startingLocation,
-//                     @BsonProperty("Destination") String destination,
-//                     @BsonProperty("IsArchive") boolean isArchive){
-//        this.id = id;
-//        this.basePrice = basePrice;
-//        this.seat = seat;
-//        this.startingLocation = startingLocation;
-//        this.destination = destination;
-//        this.isArchive = isArchive;
-//    }
     @BsonCreator
-    public TrainMgd(@BsonProperty("id") UUID id,
+    public TrainMgd(@BsonProperty("_id") UUID id,
                      @BsonProperty("Base_Price") int basePrice,
                      @BsonProperty("Seat") String seat,
                      @BsonProperty("Starting_Location") String startingLocation,
@@ -53,5 +40,44 @@ public class TrainMgd extends AbstractEntityMgd {
     }
     public UUID getId(){
         return id;
+    }
+    public int getBasePrice() {
+        return basePrice;
+    }
+
+    public String getSeat() {
+        return seat;
+    }
+
+    public String getStartingLocation() {
+        return startingLocation;
+    }
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public boolean isArchive() {
+        return isArchive;
+    }
+
+    public void setBasePrice(int basePrice) {
+        this.basePrice = basePrice;
+    }
+
+    public void setSeat(String seat) {
+        this.seat = seat;
+    }
+
+    public void setStartingLocation(String startingLocation) {
+        this.startingLocation = startingLocation;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+
+    public void setArchive(boolean archive) {
+        isArchive = archive;
     }
 }
