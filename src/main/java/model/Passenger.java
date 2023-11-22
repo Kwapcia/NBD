@@ -53,14 +53,15 @@ public class Passenger extends AbstractEntity {
             }
         }
 
-    public <T> Passenger(Object id, T first_name, T last_name, T age, PassengerType passengerTypeFromEnum) {
+    public <T> Passenger(Object id, T first_name, T last_name, T age, PassengerType passengerTypeFromEnum, T isArchive) {
         super();
     }
+
 
     // Getters
         public String getInfo() {
             return "First name: " + getFirstName() + ", last name: " + getLastName() + ", id: " +
-                    getID() + ", age: " + getAge() + ", passenger type: " + getPassengerType().getTypeInfo() +
+                    getId() + ", age: " + getAge() + ", passenger type: " + getPassengerType().getTypeInfo() +
                     ", is archive: " + (isArchive ? "true" : "false");
         }
 
@@ -72,7 +73,7 @@ public class Passenger extends AbstractEntity {
             return lastName;
         }
 
-        public UUID getID() {
+        public UUID getId() {
             return id;
         }
 

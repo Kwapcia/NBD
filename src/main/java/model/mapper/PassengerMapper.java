@@ -1,7 +1,6 @@
 package model.mapper;
 
 import model.*;
-import model.mgd.PassengerEmbeddedMgd;
 import model.mgd.PassengerMgd;
 
 import org.bson.Document;
@@ -17,26 +16,28 @@ public class PassengerMapper {
                 .append("First_Name",passengerMgd.getFirstName())
                 .append("Last_Name",passengerMgd.getLastName())
                 .append("Age",passengerMgd.getAge())
-                .append("Passenger_Type",passengerMgd.getPassengerType());
+                .append("Passenger_Type",passengerMgd.getPassengerType())
+                .append("isArchive",passengerMgd.isArchive());
         return passengerDocument;
     }
 
-    public static Passenger fromMongoClientEmbedded(Document passengerDocument){
+    public static Passenger fromMongoPassengerEmbedded(Document passengerDocument){
         String passengerTypeString = passengerDocument.getString("Passenger_Type");
         PassengerMgd.Type passengerType = PassengerMgd.Type.fromString(passengerTypeString);
 
         Passenger passenger = new Passenger(
-                passengerDocument.get("_id"),
+                passengerDocument.get("_id",UUID.class),
                 passengerDocument.get("First_Name",String.class),
                 passengerDocument.get("Last_Name",String.class),
-                passengerDocument.get("Age",int.class),
-                createPassengerTypeFromEnum(passengerType)
+                passengerDocument.get("Age",Integer.class),
+                createPassengerTypeFromEnum(passengerType),
+                passengerDocument.get("isArchive",Boolean.class)
         );
         return passenger;
     }
 
     public static PassengerMgd toDomainPassenger(Passenger passenger) {
-        PassengerMgd passengerMgd = new PassengerMgd(passenger.getFirstName(),passenger.getLastName(),passenger.getID(),passenger.getAge(),createEnumFromPassengerType(passenger.getPassengerType()),passenger.isArchive());
+        PassengerMgd passengerMgd = new PassengerMgd(passenger.getFirstName(),passenger.getLastName(),passenger.getId(),passenger.getAge(),createEnumFromPassengerType(passenger.getPassengerType()),passenger.isArchive());
         return passengerMgd;
     }
 

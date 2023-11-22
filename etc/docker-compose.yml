@@ -12,7 +12,7 @@ services:
       - "27017:27017"
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO-INITDB_ROOT_PASSWORD=adminpassword
+      - MONGO_INITDB_ROOT_PASSWORD=adminpassword
     command: --config /etc/mongod.conf --port 27017
     healthcheck:
       test: [ "CMD","mongosh","--port","27017","--eval","db.adminCommand('ping')" ]
@@ -30,7 +30,7 @@ services:
       - "27018:27018"
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO-INITDB_ROOT_PASSWORD=adminpassword
+      - MONGO_INITDB_ROOT_PASSWORD=adminpassword
     command: --config /etc/mongod.conf --port 27018
     healthcheck:
       test: [ "CMD","mongosh","--port","27018","--eval","db.adminCommand('ping')" ]
@@ -48,7 +48,7 @@ services:
       - "27019:27019"
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO-INITDB_ROOT_PASSWORD=adminpassword
+      - MONGO_INITDB_ROOT_PASSWORD=adminpassword
     command: --config /etc/mongod.conf --port 27019
     healthcheck:
       test: [ "CMD","mongosh","--port","27019","--eval","db.adminCommand('ping')" ]
