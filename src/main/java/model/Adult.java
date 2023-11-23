@@ -11,6 +11,6 @@ public class Adult extends PassengerType{
 
     @Override
     public String getTypeInfo() {
-        return "Adult";
+        return "ADULT";
     }
 }

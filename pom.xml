@@ -75,6 +75,15 @@
             <artifactId>logback-classic</artifactId>
             <version>1.4.8</version>
         </dependency>
+        <!-- logging dependencies -->
+
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.32</version> <!-- Use the latest version available -->
+        </dependency>
+
 
     </dependencies>
 

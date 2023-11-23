@@ -53,8 +53,13 @@ public class Passenger extends AbstractEntity {
             }
         }
 
-    public <T> Passenger(Object id, T first_name, T last_name, T age, PassengerType passengerTypeFromEnum, T isArchive) {
-        super();
+    public Passenger(UUID id, String firstName, String lastName, int age, boolean isArchive, PassengerType passengerType) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.isArchive = isArchive;
+        this.passengerType = passengerType;
     }
 
 

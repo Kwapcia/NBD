@@ -9,6 +9,8 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class PassengerMapper {
+    UUID id = UUID.randomUUID();
+
 
     public static Document toMongoPassenger(PassengerMgd passengerMgd){
         Document passengerDocument = new Document()
@@ -16,8 +18,9 @@ public class PassengerMapper {
                 .append("First_Name",passengerMgd.getFirstName())
                 .append("Last_Name",passengerMgd.getLastName())
                 .append("Age",passengerMgd.getAge())
-                .append("Passenger_Type",passengerMgd.getPassengerType())
-                .append("isArchive",passengerMgd.isArchive());
+                .append("isArchive",passengerMgd.isArchive())
+                .append("Passenger_Type",passengerMgd.getPassengerType());
+
         return passengerDocument;
     }
 
@@ -30,8 +33,8 @@ public class PassengerMapper {
                 passengerDocument.get("First_Name",String.class),
                 passengerDocument.get("Last_Name",String.class),
                 passengerDocument.get("Age",Integer.class),
-                createPassengerTypeFromEnum(passengerType),
-                passengerDocument.get("isArchive",Boolean.class)
+                passengerDocument.get("isArchive",Boolean.class),
+                createPassengerTypeFromEnum(passengerType)
         );
         return passenger;
     }
@@ -55,11 +58,11 @@ public class PassengerMapper {
     }
 
     public static PassengerMgd.Type createEnumFromPassengerType(PassengerType passengerType) {
-        if(Objects.equals(passengerType.getTypeInfo(),"Child")){
+        if(Objects.equals(passengerType.getTypeInfo(),"CHILDREN")){
             return PassengerMgd.Type.CHILDREN;
-        } else if (Objects.equals(passengerType.getTypeInfo(), "Adult")) {
+        } else if (Objects.equals(passengerType.getTypeInfo(), "ADULT")) {
             return PassengerMgd.Type.ADULT;
-        }else if (Objects.equals(passengerType.getTypeInfo(),"Senior")) {
+        }else if (Objects.equals(passengerType.getTypeInfo(),"SENIOR")) {
             return PassengerMgd.Type.SENIOR;
         }
         else {

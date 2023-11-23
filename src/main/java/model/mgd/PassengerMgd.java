@@ -51,6 +51,7 @@ public class PassengerMgd {
         this.lastName = lastName;
         this.age = age;
         this.isArchive = isArchive;
+        this.passengerType = passengerType;
     }
 
     public String getFirstName(){

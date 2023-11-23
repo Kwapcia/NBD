@@ -44,9 +44,9 @@ public abstract class AbstractMongoRepository implements AutoCloseable{
 
     protected MongoClient mongoClient;
 
-    protected MongoDatabase  trainStationDB;
+    public MongoDatabase  trainStationDB;
 
-    protected void initDbConnection(){
+    public void initDbConnection(){
         ClassModel<PassengerMgd> passengerMgdClassModel = ClassModel.builder(PassengerMgd.class).enableDiscriminator(true).build();
         ClassModel<TicketMgd> ticketMgdClassModel = ClassModel.builder(TicketMgd.class).enableDiscriminator(true).build();
         ClassModel<TrainMgd> trainMgdClassModel = ClassModel.builder(TrainMgd.class).enableDiscriminator(true).build();

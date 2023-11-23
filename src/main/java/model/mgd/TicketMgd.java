@@ -27,7 +27,7 @@ public class TicketMgd extends AbstractEntityMgd{
                      @BsonProperty("Passenger")PassengerMgd passenger,
                      @BsonProperty("Train")TrainMgd train,
                      @BsonProperty("Begin_Time") DateTime beginTime,
-                    @BsonProperty("End_Time") DateTime endTime,
+                     @BsonProperty("End_Time") DateTime endTime,
                      @BsonProperty("Ticket_Price")float ticketCost
                      )
     {

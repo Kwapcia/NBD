@@ -1,8 +1,6 @@
 package mappers;
 
-import model.Adult;
-import model.Passenger;
-import model.PassengerType;
+import model.*;
 import org.bson.Document;
 import model.mapper.PassengerMapper;
 import model.mgd.PassengerMgd;
@@ -34,45 +32,57 @@ public class PassengerMapperTest {
         assertEquals(passengerMgd.getAge(),passengerDocument.get("Age"));
         assertEquals(passengerMgd.isArchive(),passengerDocument.get("isArchive"));
     }
-//    @Test
-//    public void testFromMongoPassengerEmbedded() {
-//        Document passengerDocument = new Document()
-//                .append("First_Name","Ola")
-//                .append("Last_Name","Kwa")
-//                .append("_id",UUID.randomUUID())
-//                .append("Age",21)
-//                .append("Passenger_Type",PassengerMgd.Type.ADULT.toString())
-//                .append("isArchive",false);
-//        String json = passengerDocument.toJson();
-//        System.out.println(json);
-//
-//        String passengerTypeString = passengerDocument.getString(("Passenger_Type"));
-//        PassengerMgd.Type passengerType = PassengerMgd.Type.fromString(passengerTypeString);
-//
-////        PassengerMgd passengerMgd = new PassengerMgd(
-////                passengerDocument.get("_id",UUID.class),
-////                passengerDocument.get("First_Name")
-////        )
-//        Passenger passenger = PassengerMapper.fromMongoPassengerEmbedded(passengerDocument);
-//        assertNotNull(passenger);
-//        assertEquals(passengerDocument.get("First_Name",String.class),passenger.getFirstName());
-//        assertEquals(passengerDocument.get("Last_Name",String.class),passenger.getLastName());
-//        assertEquals(passengerDocument.get("_id",UUID.class),passenger.getId());
-//        assertEquals(passengerDocument.get("Age",Integer.class),passenger.getAge());
-//        assertEquals(passengerDocument.get("isArchive",Boolean.class),passenger.isArchive());
-//    }
-//
-//    @Test
-//    public void testToDomainPassenger() {
-//        PassengerType passengerType = new Adult();
-//        Passenger passenger = new Passenger("Ola","Kwa",UUID.randomUUID(),21,passengerType,false);
-//
-//        PassengerMgd passengerMgd = PassengerMapper.toDomainPassenger(passenger);
-//        assertNotNull(passengerMgd);
-//        assertEquals(passenger.getFirstName(),passengerMgd.getFirstName());
-//        assertEquals(passenger.getLastName(),passengerMgd.getLastName());
-//        assertEquals(passenger.getId(),passengerMgd.getId());
-//        assertEquals(passenger.getAge(),passengerMgd.getAge());
-//        assertEquals(passenger.isArchive(),passengerMgd.isArchive());
-//    }
+    @Test
+    public void testFromMongoPassengerEmbedded() {
+        Document passengerDocument = new Document()
+                .append("_id", UUID.randomUUID())
+                .append("First_Name", "Jane")
+                .append("Last_Name", "Smith")
+                .append("Age", 25)
+                .append("Passenger_Type", PassengerMgd.Type.ADULT.name())
+                .append("isArchive", true);
+
+        Passenger passenger = PassengerMapper.fromMongoPassengerEmbedded(passengerDocument);
+
+        assertNotNull(passenger);
+        assertEquals(passengerDocument.get("_id", UUID.class), passenger.getId());
+        assertEquals(passengerDocument.getString("First_Name"), passenger.getFirstName());
+        assertEquals(passengerDocument.getString("Last_Name"), passenger.getLastName());
+        assertEquals(passengerDocument.getInteger("Age"), passenger.getAge());
+        assertEquals(passengerDocument.getBoolean("isArchive"), passenger.isArchive());
+    }
+
+
+    @Test
+    public void testToDomainPassenger() {
+        Passenger passenger = new Passenger("Alice", "Johnson",UUID.randomUUID(), 40);
+
+        PassengerMgd passengerMgd = PassengerMapper.toDomainPassenger(passenger);
+
+        assertNotNull(passengerMgd);
+        assertEquals(passenger.getFirstName(), passengerMgd.getFirstName());
+        assertEquals(passenger.getLastName(), passengerMgd.getLastName());
+        assertEquals(passenger.getId(), passengerMgd.getId());
+        assertEquals(passenger.getAge(), passengerMgd.getAge());
+        assertEquals(passenger.getPassengerType().getTypeInfo(), passengerMgd.getPassengerType().name());
+        assertEquals(passenger.isArchive(), passengerMgd.isArchive());
+    }
+
+    @Test
+    public void testCreatePassengerTypeFromEnum() {
+        PassengerMgd.Type type = PassengerMgd.Type.SENIOR;
+        PassengerType passengerType = PassengerMapper.createPassengerTypeFromEnum(type);
+
+        assertNotNull(passengerType);
+        assertEquals(Senior.class, passengerType.getClass());
+    }
+
+    @Test
+    public void testCreateEnumFromPassengerType() {
+        PassengerType passengerType = new Adult();
+        PassengerMgd.Type type = PassengerMapper.createEnumFromPassengerType(passengerType);
+
+        assertNotNull(type);
+        assertEquals(PassengerMgd.Type.ADULT, type);
+    }
 }
