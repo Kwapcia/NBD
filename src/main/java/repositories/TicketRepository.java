@@ -1,6 +1,7 @@
 package repositories;
 
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import model.mgd.TicketMgd;
 import org.bson.types.ObjectId;
@@ -21,6 +22,12 @@ public class TicketRepository extends AbstractMongoRepository implements Reposit
         MongoCollection<TicketMgd> collection = trainStationDB
                 .getCollection("tickets",TicketMgd.class);
         collection.insertOne(obj);
+    }
+
+    public final MongoDatabase trainStationDB;
+
+    public TicketRepository(MongoDatabase trainStationDB) {
+        this.trainStationDB = trainStationDB;
     }
 
     @Override

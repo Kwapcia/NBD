@@ -1,6 +1,7 @@
 package repositories;
 
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import model.mgd.TrainMgd;
 import org.bson.types.ObjectId;
@@ -9,6 +10,10 @@ import java.util.List;
 import java.util.UUID;
 
 public class TrainRepository extends AbstractMongoRepository implements Repository<TrainMgd> {
+
+    public TrainRepository(MongoDatabase trainStationDB) {
+        this.trainStationDB = trainStationDB;
+    }
 
     @Override
     public void close() throws Exception {
