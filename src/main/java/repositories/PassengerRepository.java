@@ -1,11 +1,13 @@
 package repositories;
 
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.CreateCollectionOptions;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.ValidationOptions;
 import model.mgd.PassengerMgd;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,15 +59,17 @@ public class PassengerRepository extends AbstractMongoRepository implements Repo
     public PassengerMgd getById(UUID id){
         MongoCollection<PassengerMgd> collection = trainStationDB
                 .getCollection("passengers",PassengerMgd.class);
-        return collection.find(Filters.eq("_id",new ObjectId((id.toString())))).first();
+        return collection.find(Filters.eq("_id",id)).first();
     }
 
     @Override
-    public void add(PassengerMgd obj) throws Exception {
+    public void add(PassengerMgd passenger) throws Exception {
         MongoCollection<PassengerMgd> collection = trainStationDB
                 .getCollection("passengers",PassengerMgd.class);
-        collection.insertOne(obj);
+        collection.insertOne(passenger);
     }
+
+
 
     @Override
     public PassengerMgd get(UUID id){

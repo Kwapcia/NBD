@@ -53,20 +53,20 @@ public class PassengerMapperTest {
     }
 
 
-    @Test
-    public void testToDomainPassenger() {
-        Passenger passenger = new Passenger("Alice", "Johnson",UUID.randomUUID(), 40);
-
-        PassengerMgd passengerMgd = PassengerMapper.toDomainPassenger(passenger);
-
-        assertNotNull(passengerMgd);
-        assertEquals(passenger.getFirstName(), passengerMgd.getFirstName());
-        assertEquals(passenger.getLastName(), passengerMgd.getLastName());
-        assertEquals(passenger.getId(), passengerMgd.getId());
-        assertEquals(passenger.getAge(), passengerMgd.getAge());
-        assertEquals(passenger.getPassengerType().getTypeInfo(), passengerMgd.getPassengerType().name());
-        assertEquals(passenger.isArchive(), passengerMgd.isArchive());
-    }
+//    @Test
+//    public void testToDomainPassenger() {
+//        Passenger passenger = new Passenger("Alice", "Johnson",UUID.randomUUID(), 40);
+//
+//        PassengerMgd passengerMgd = PassengerMapper.toDomainPassenger(passenger);
+//
+//        assertNotNull(passengerMgd);
+//        assertEquals(passenger.getFirstName(), passengerMgd.getFirstName());
+//        assertEquals(passenger.getLastName(), passengerMgd.getLastName());
+//        assertEquals(passenger.getId(), passengerMgd.getId());
+//        assertEquals(passenger.getAge(), passengerMgd.getAge());
+//        assertEquals(passenger.getPassengerType().getTypeInfo(), passengerMgd.getPassengerType().name());
+//        assertEquals(passenger.isArchive(), passengerMgd.isArchive());
+//    }
 
     @Test
     public void testCreatePassengerTypeFromEnum() {

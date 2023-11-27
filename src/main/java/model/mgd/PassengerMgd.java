@@ -46,9 +46,9 @@ public class PassengerMgd {
                         @BsonProperty("Age")int age,
                         @BsonProperty("Passenger_Type")PassengerMgd.Type passengerType,
                         @BsonProperty("Is_Archived") boolean isArchive){
-        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.id = id;
         this.age = age;
         this.isArchive = isArchive;
         this.passengerType = passengerType;

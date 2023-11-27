@@ -13,6 +13,7 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=adminpassword
+      - "sysctl -w vm.max_map_count=262144"
     command: --config /etc/mongod.conf --port 27017
     healthcheck:
       test: [ "CMD","mongosh","--port","27017","--eval","db.adminCommand('ping')" ]
@@ -70,7 +71,7 @@ services:
       mongo_3:
         condition: service_healthy
     command: >
-      mongosh --host mongodb1:27017 --username admin --password adminpassword --authentiationDatabase admin --eval
+      mongosh --host mongodb1:27017 --username admin --password adminpassword --authenticationDatabase admin --eval
       '
       rs.initiate(
         {
