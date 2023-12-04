@@ -1,5 +1,6 @@
 package model;
 
+import lombok.experimental.SuperBuilder;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 import org.joda.time.PeriodType;
@@ -7,7 +8,7 @@ import org.joda.time.PeriodType;
 import java.io.Serializable;
 import java.util.UUID;
 
-
+@SuperBuilder
 public class Ticket extends AbstractEntity {
 
     private UUID id;

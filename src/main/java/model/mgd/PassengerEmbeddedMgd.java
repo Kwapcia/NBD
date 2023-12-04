@@ -23,19 +23,19 @@ public class PassengerEmbeddedMgd {
     @BsonProperty
     private PassengerMgd passenger;
 
-    public PassengerMgd getPassenger() {
-        return passenger;
-    }
-
-    public void setPassenger(PassengerMgd passenger) {
-        this.passenger = passenger;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
+//    public PassengerMgd getPassenger() {
+//        return passenger;
+//    }
+//
+//    public void setPassenger(PassengerMgd passenger) {
+//        this.passenger = passenger;
+//    }
+//
+//    public UUID getId() {
+//        return id;
+//    }
+//
+//    public void setId(UUID id) {
+//        this.id = id;
+//    }
 }

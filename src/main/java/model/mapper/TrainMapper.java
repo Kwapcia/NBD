@@ -1,19 +1,25 @@
 package model.mapper;
 
 import model.mgd.TrainMgd;
-import org.bson.Document;
-
-import java.util.Map;
+import model.Train;
 
 public class TrainMapper {
-    public static Document toMongoTrain(TrainMgd trainMgd) {
-        Document trainDocument = new Document()
-                .append("_id",trainMgd.getId())
-                .append("Base_Price", trainMgd.getBasePrice())
-                .append("Seat",trainMgd.getSeat())
-                .append("Starting_Location",trainMgd.getStartingLocation())
-                .append("Destination",trainMgd.getDestination())
-                .append("IsArchive",trainMgd.isArchive());
-        return trainDocument;
+    public static TrainMgd toMongoDocument (Train train){
+        return TrainMgd.builder()
+                .basePrice(train.getBasePrice())
+                .id(train.getId())
+                .seat(train.getSeat())
+                .startingLocation(train.getStartingLocation())
+                .destination(train.getDestination())
+                .build();
+    }
+    public static Train toDomainModel(TrainMgd trainMgd){
+        return Train.builder()
+                .basePrice(trainMgd.getBasePrice())
+                .id(trainMgd.getId())
+                .seat(trainMgd.getSeat())
+                .startingLocation(trainMgd.getStartingLocation())
+                .destination(trainMgd.getDestination())
+                .build();
     }
 }

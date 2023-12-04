@@ -1,8 +1,10 @@
 package model;
+import lombok.experimental.SuperBuilder;
+
 import java.util.UUID;
 
 
-
+@SuperBuilder
 public class Train extends AbstractEntity {
 
         private UUID id;

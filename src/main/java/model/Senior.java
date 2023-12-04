@@ -1,5 +1,7 @@
 package model;
 
+import org.bson.codecs.pojo.annotations.BsonProperty;
+
 public class Senior extends PassengerType {
 
     public String discount = "20%";

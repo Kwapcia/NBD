@@ -1,17 +1,19 @@
 package repositories;
 
-import model.mgd.PassengerMgd;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
-public interface Repository<T> {
+public interface Repository<T> extends AutoCloseable {
 
-    T get(UUID id);
+    Optional<T> get(UUID id);
 
-    void add(T obj) throws Exception;
+    T add (T entity);
 
-    void update(T obj) throws Exception;
+    T update (T entity);
 
-    void remove(T obj) throws Exception;
+    void remove(T entity);
+    List<T> findAll();
 }
 

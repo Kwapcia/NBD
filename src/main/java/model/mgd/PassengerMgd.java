@@ -1,12 +1,12 @@
 package model.mgd;
 
-import model.Passenger;
+import lombok.experimental.SuperBuilder;
 import org.bson.codecs.pojo.annotations.BsonCreator;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
 import java.util.UUID;
-
-public class PassengerMgd {
+@SuperBuilder
+public class PassengerMgd extends AbstractEntityMgd {
     public enum Type {
         CHILDREN, ADULT, SENIOR;
         public static Type fromString(String text){
@@ -46,9 +46,10 @@ public class PassengerMgd {
                         @BsonProperty("Age")int age,
                         @BsonProperty("Passenger_Type")PassengerMgd.Type passengerType,
                         @BsonProperty("Is_Archived") boolean isArchive){
+        super(id);
         this.firstName = firstName;
         this.lastName = lastName;
-        this.id = id;
+        //this.id = id;
         this.age = age;
         this.isArchive = isArchive;
         this.passengerType = passengerType;
@@ -74,11 +75,12 @@ public class PassengerMgd {
         return isArchive;
    }
 
-   public Type getPassengerType(){
+    public Type getPassengerType() {
         return passengerType;
-   }
+    }
 
-   public void setFirstName(String firstName){
+
+    public void setFirstName(String firstName){
         this.firstName = firstName;
    }
 

@@ -1,11 +1,13 @@
 package model;
 
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+import model.mgd.PassengerMgd;
 
 import java.util.UUID;
 
 @NoArgsConstructor
-
+@SuperBuilder
 public class Passenger extends AbstractEntity {
 
         private UUID id;
@@ -90,11 +92,11 @@ public class Passenger extends AbstractEntity {
             return isArchive;
         }
 
-        public PassengerType getPassengerType() {
-            return passengerType;
-        }
+    public PassengerType getPassengerType() {
+        return passengerType;
+    }
 
-        // Setters
+    // Setters
         public void setFirstName(String newFirstName) {
             if (newFirstName != null && !newFirstName.isEmpty()) {
                 firstName = newFirstName;
