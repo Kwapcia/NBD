@@ -7,7 +7,7 @@ import java.util.UUID;
 @SuperBuilder
 public class Train extends AbstractEntity {
 
-        private UUID id;
+        //private UUID id;
 
         private int basePrice;
 
@@ -19,9 +19,17 @@ public class Train extends AbstractEntity {
 
         private boolean isArchive;
 
-        public Train(int basePrice, UUID id, String seat, String startingLocation, String destination) {
+    public Train(int basePrice, String seat, String startingLocation, String destination, boolean isArchive) {
+        this.basePrice = basePrice;
+        this.seat = seat;
+        this.startingLocation = startingLocation;
+        this.destination = destination;
+        this.isArchive = isArchive;
+    }
+
+    public Train(int basePrice, UUID id, String seat, String startingLocation, String destination) {
+            super(id);
             this.basePrice = basePrice;
-            this.id = id;
             this.seat = seat;
             this.startingLocation = startingLocation;
             this.destination = destination;

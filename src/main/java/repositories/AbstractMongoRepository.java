@@ -10,10 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import model.mgd.AbstractEntityMgd;
-import model.mgd.PassengerMgd;
-import model.mgd.TicketMgd;
-import model.mgd.TrainMgd;
+import model.mgd.*;
 import org.bson.UuidRepresentation;
 import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.configuration.CodecRegistry;
@@ -34,25 +31,46 @@ public class AbstractMongoRepository<T extends AbstractEntityMgd> implements Rep
     protected ConnectionString connectionString = new ConnectionString(
             "mongodb://localhost:27017,localhost:27018,localhost:27019/?replicaSet=replica_set_single"
     );
+    private ClassModel<PassengerMgd> passengerMgd = ClassModel.builder(PassengerMgd.class).enableDiscriminator(true).build();
+    private ClassModel<AdultMgd> adultMgd = ClassModel.builder(AdultMgd.class).enableDiscriminator(true).build();
+    private ClassModel<SeniorMgd> seniorMgd = ClassModel.builder(SeniorMgd.class).enableDiscriminator(true).build();
+    private ClassModel<ChildrenMgd> childrenMgd = ClassModel.builder(ChildrenMgd.class).enableDiscriminator(true).build();
+
 
     protected MongoCredential credential = MongoCredential
             .createCredential("admin","admin","adminpassword".toCharArray());
+    public void initDbConnection(){
+        ClassModel<PassengerMgd> passengerMgd = ClassModel.builder(PassengerMgd.class).enableDiscriminator(true).build();
+        ClassModel<AdultMgd> adultMgd = ClassModel.builder(AdultMgd.class).enableDiscriminator(true).build();
+        ClassModel<SeniorMgd> seniorMgd = ClassModel.builder(SeniorMgd.class).enableDiscriminator(true).build();
+        ClassModel<ChildrenMgd> childrenMgd = ClassModel.builder(ChildrenMgd.class).enableDiscriminator(true).build();
+        PojoCodecProvider passengerMgdProvider = PojoCodecProvider.builder()
+                .conventions(List.of(Conventions.ANNOTATION_CONVENTION))
+                .register(adultMgd,childrenMgd,seniorMgd).build();
+        MongoClientSettings settings = MongoClientSettings.builder()
+                .applyConnectionString(connectionString)
+                .credential(credential)
+                .uuidRepresentation(UuidRepresentation.STANDARD)
+                .codecRegistry(CodecRegistries.fromRegistries(
+                        CodecRegistries.fromProviders(MongoClientSettings.getDefaultCodecRegistry(),
+                                pojoCodecRegistry,
+                                passengerMgdProvider)
+                ))
+                .build();
+        mongoClient = MongoClients.create(settings);
+        trainStationDB = mongoClient.getDatabase("test");
 
-    protected CodecRegistry pojoCodecRegistry = CodecRegistries.fromRegistries(
-            CodecRegistries.fromProviders(
-                    PojoCodecProvider.builder()
-                            .automatic(true)
-                            .conventions(List.of(Conventions.ANNOTATION_CONVENTION))
-                            .build()
-            ),
-            CodecRegistries.fromProviders(
-                    PojoCodecProvider.builder()
-                            .register(PassengerMgd.Type.class)
-                            .register(TrainMgd.class)
-                            .register(TicketMgd.class)
-                            .build()
-            )
-    );
+    }
+    private PojoCodecProvider passengerMgdProvider = PojoCodecProvider.builder()
+            .conventions(List.of(Conventions.ANNOTATION_CONVENTION))
+            .register(adultMgd, childrenMgd, seniorMgd, passengerMgd)
+            .build();
+
+    private CodecRegistry pojoCodecRegistry = CodecRegistries.fromProviders(PojoCodecProvider.builder()
+            .automatic(true)
+            .conventions(List.of(Conventions.ANNOTATION_CONVENTION))
+            .register(adultMgd,childrenMgd,seniorMgd,passengerMgd)
+            .build());
 
     protected MongoClient mongoClient;
 
@@ -66,30 +84,13 @@ public class AbstractMongoRepository<T extends AbstractEntityMgd> implements Rep
         initDbConnection();
     }
 
-    public void initDbConnection(){
-        ClassModel<PassengerMgd> passengerMgd = ClassModel.builder(PassengerMgd.class).enableDiscriminator(true).build();
-        ClassModel<TicketMgd> ticketMgd = ClassModel.builder(TicketMgd.class).enableDiscriminator(true).build();
-        ClassModel<TrainMgd> trainMgd = ClassModel.builder(TrainMgd.class).enableDiscriminator(true).build();
-        ClassModel<PassengerMgd.Type> passengerTypeMgd = ClassModel.builder(PassengerMgd.Type.class).enableDiscriminator(true).build();
 
-        MongoClientSettings settings = MongoClientSettings.builder()
-                .applyConnectionString(connectionString)
-                .credential(credential)
-                .uuidRepresentation(UuidRepresentation.STANDARD)
-                .codecRegistry(CodecRegistries.fromRegistries(
-                        MongoClientSettings.getDefaultCodecRegistry(),
-                        pojoCodecRegistry
-                ))
-                .build();
-        mongoClient = MongoClients.create(settings);
-        trainStationDB = mongoClient.getDatabase("test");
-
-    }
     @Override
-    public Optional<T> get(UUID id) {
+    public Optional<T> findById(UUID id) {
         MongoCollection<T> collection = trainStationDB.getCollection(collectionName, tClass);
         Bson filter = Filters.eq("_id", id);
-        return Optional.ofNullable(collection.find(filter).first());
+        Optional<T> found = Optional.of(collection.find(filter).first());
+        return found;
     }
 
 

@@ -1,25 +1,33 @@
 package model.mgd;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.bson.codecs.pojo.annotations.BsonCreator;
+import org.bson.codecs.pojo.annotations.BsonDiscriminator;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
 import java.util.UUID;
 @SuperBuilder
+@Getter
+@Setter
+@NoArgsConstructor
+@BsonDiscriminator(key="_tClass")
 public class PassengerMgd extends AbstractEntityMgd {
-    public enum Type {
-        CHILDREN, ADULT, SENIOR;
-        public static Type fromString(String text){
-            if(text!=null){
-                for(Type type :Type.values()){
-                    if(text.equalsIgnoreCase(type.name())){
-                        return type;
-                    }
-                }
-            }
-            throw new IllegalArgumentException("Nie ma takiego pasażera");
-        }
-    }
+//    public enum Type {
+//        CHILDREN, ADULT, SENIOR;
+//        public static Type fromString(String text){
+//            if(text!=null){
+//                for(Type type :Type.values()){
+//                    if(text.equalsIgnoreCase(type.name())){
+//                        return type;
+//                    }
+//                }
+//            }
+//            throw new IllegalArgumentException("Nie ma takiego pasażera");
+//        }
+//    }
 
     @BsonProperty("_id")
     private UUID id;
@@ -36,67 +44,67 @@ public class PassengerMgd extends AbstractEntityMgd {
     @BsonProperty("Is_Archived")
     private boolean isArchive;
 
-    @BsonProperty("Passenger_Type")
-    private PassengerMgd.Type passengerType;
+//    @BsonProperty("Passenger_Type")
+//    private PassengerMgd.Type passengerType;
 
     @BsonCreator
     public PassengerMgd(@BsonProperty("First_Name") String firstName,
-                        @BsonProperty("Last_Name")String lastName,
+                        @BsonProperty("Last_Name") String lastName,
                         @BsonProperty("_id") UUID id,
-                        @BsonProperty("Age")int age,
-                        @BsonProperty("Passenger_Type")PassengerMgd.Type passengerType,
-                        @BsonProperty("Is_Archived") boolean isArchive){
+                        @BsonProperty("Age") int age,
+//                        @BsonProperty("Passenger_Type")PassengerMgd.Type passengerType,
+                        @BsonProperty("Is_Archived") boolean isArchive) {
         super(id);
         this.firstName = firstName;
         this.lastName = lastName;
-        //this.id = id;
         this.age = age;
         this.isArchive = isArchive;
-        this.passengerType = passengerType;
+        //this.passengerType = passengerType;
     }
 
-    public String getFirstName(){
+    public String getFirstName() {
         return firstName;
     }
 
-    public String getLastName(){
+    public String getLastName() {
         return lastName;
     }
 
-    public UUID getId(){
+    public UUID getId() {
         return id;
     }
 
-    public int getAge(){
+    public int getAge() {
         return age;
     }
 
-   public boolean isArchive(){
+    public boolean isArchive() {
         return isArchive;
-   }
-
-    public Type getPassengerType() {
-        return passengerType;
     }
 
+    //public Type getPassengerType() {
+    // return passengerType;
+    // }
 
-    public void setFirstName(String firstName){
+
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
-   }
+    }
 
-   public void setLastName(String lastName){
+    public void setLastName(String lastName) {
         this.lastName = lastName;
-   }
+    }
 
-   public void setAge(int age){
+    public void setAge(int age) {
         this.age = age;
-   }
+    }
 
-   public void setArchive(boolean isArchive){
+    public void setArchive(boolean isArchive) {
         this.isArchive = isArchive;
-   }
-
-   public void setPassengerType(Type passengerType){
-        this.passengerType = passengerType;
-   }
+    }
 }
+
+//   public void setPassengerType(Type passengerType){
+//        this.passengerType = passengerType;
+//   }
+//}

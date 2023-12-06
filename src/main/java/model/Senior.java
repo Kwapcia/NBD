@@ -1,18 +1,39 @@
 package model;
 
-import org.bson.codecs.pojo.annotations.BsonProperty;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
-public class Senior extends PassengerType {
+import java.util.UUID;
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
+@SuperBuilder
+public class Senior extends Passenger {
 
-    public String discount = "20%";
+    private String discount;
+    private String nrKartySeniora;
 
-    @Override
-    public double applyDiscount(double price) {
+    public Senior(String firstName, String lastName, UUID id, int age, boolean isArchive, String discount, String nrKartySeniora) {
+        super(firstName, lastName, id, age, isArchive);
+        this.discount = discount;
+        this.nrKartySeniora = nrKartySeniora;
+    }
+    public Senior(String discount,String nrKartySeniora){
+        this.discount=discount;
+        this.nrKartySeniora =nrKartySeniora;
+    }
+
+
+    public static double applyDiscount(double price) {
         return 0.8 * price;
     }
 
-    @Override
-    public String getTypeInfo() {
-        return "Senior";
-    }
+//    @Override
+//    public String getTypeInfo() {
+//        return "Senior";
+//    }
 }

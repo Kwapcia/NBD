@@ -1,19 +1,29 @@
 package model;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 import org.joda.time.PeriodType;
 
 import java.io.Serializable;
+import java.util.Map;
 import java.util.UUID;
 
 @SuperBuilder
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
 public class Ticket extends AbstractEntity {
 
-    private UUID id;
+    //private UUID id;
 
-    private Passenger passenger;
+    //private Passenger passenger;
+    private Map<String,Passenger>ticketPassengers;
 
     private Train train;
 
@@ -23,9 +33,10 @@ public class Ticket extends AbstractEntity {
 
     private float ticketCost;
 
-    public Ticket(UUID id, Passenger passenger, Train train, DateTime beginTime) {
-        this.id = id;
-        this.passenger = passenger;
+    public Ticket(UUID id, Map<String , Passenger>ticketPassengers, Train train, DateTime beginTime) {
+       super(id);
+       // this.passenger = passenger;
+        this.ticketPassengers=ticketPassengers;
         this.train = train;
         if (beginTime == null) {
             this.beginTime = DateTime.now();
@@ -35,7 +46,7 @@ public class Ticket extends AbstractEntity {
         this.endTime = null;
         this.ticketCost = 0.0f;
 
-        if (passenger == null) {
+        if (ticketPassengers == null) {
             throw new IllegalArgumentException("Need passenger!");
         }
         if (train == null) {
@@ -43,11 +54,20 @@ public class Ticket extends AbstractEntity {
         }
     }
 
+    public Ticket(Map<String ,Passenger>ticketPassengers, Train train, DateTime beginTime, DateTime endTime, float ticketCost) {
+        //super(id);
+        this.ticketPassengers = ticketPassengers;
+        this.train = train;
+        this.beginTime = beginTime;
+        this.endTime = endTime;
+        this.ticketCost = ticketCost;
+    }
+
     // Getters
     public String getInfo() {
         String beginTimeString = beginTime != null ? beginTime.toString() : "Not set";
         String endTimeString = endTime != null ? endTime.toString() : "Not set";
-        return "Ticket id: " + id + ", passenger: " + passenger.getInfo() + "; " +
+        return "Ticket id: " +
                 train.getInfo() + "; begin time: " + beginTimeString + "; end time: " + endTimeString + "; paid: " + ticketCost;
     }
 
@@ -67,9 +87,9 @@ public class Ticket extends AbstractEntity {
         return ticketCost;
     }
 
-    public Passenger getPassenger() {
-        return passenger;
-    }
+//    public Passenger getPassenger() {
+//        return passenger;
+//    }
 
     public Train getTrain() {
         return train;
@@ -93,7 +113,7 @@ public class Ticket extends AbstractEntity {
     }
 
     public float calculateTicketCost() {
-        float cost = Math.round(100 * passenger.applyDiscount(getTicketDays() * train.getBasePrice())) / 100.0f;
+        float cost = Math.round(100 * Senior.applyDiscount(getTicketDays() * train.getBasePrice())) / 100.0f;
         if (cost < 0) {
             throw new IllegalArgumentException("Invalid ticket cost!");
         }

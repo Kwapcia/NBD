@@ -20,7 +20,7 @@ public class Passenger extends AbstractEntity {
 
         private boolean isArchive;
 
-        private PassengerType passengerType;
+        private Children passengerType;
 
         public Passenger(String firstName, String lastName, UUID id, int age) {
 
@@ -46,29 +46,29 @@ public class Passenger extends AbstractEntity {
             this.age = age;
             this.isArchive = false;
 
-            if (age < 18) {
-                this.passengerType = new Children();
-            } else if (age > 18 && age < 65) {
-                this.passengerType = new Adult();
-            } else {
-                this.passengerType = new Senior();
-            }
+//            if (age < 18) {
+//                this.passengerType = new Children();
+//            } else if (age > 18 && age < 65) {
+//                this.passengerType = new Adult();
+//            } else {
+//                this.passengerType = new Senior();
+//            }
         }
 
-    public Passenger(UUID id, String firstName, String lastName, int age, boolean isArchive, PassengerType passengerType) {
+    public Passenger( String firstName, String lastName,UUID id, int age, boolean isArchive) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
         this.isArchive = isArchive;
-        this.passengerType = passengerType;
+        //this.passengerType = passengerType;
     }
 
 
     // Getters
         public String getInfo() {
             return "First name: " + getFirstName() + ", last name: " + getLastName() + ", id: " +
-                    getId() + ", age: " + getAge() + ", passenger type: " + getPassengerType().getTypeInfo() +
+                    getId() + ", age: " + getAge()  +
                     ", is archive: " + (isArchive ? "true" : "false");
         }
 
@@ -92,9 +92,9 @@ public class Passenger extends AbstractEntity {
             return isArchive;
         }
 
-    public PassengerType getPassengerType() {
-        return passengerType;
-    }
+//    public PassengerType getPassengerType() {
+//        return passengerType;
+//    }
 
     // Setters
         public void setFirstName(String newFirstName) {
@@ -112,13 +112,13 @@ public class Passenger extends AbstractEntity {
         public void setAge(int newAge) {
             if (newAge >= 0) {
                 age = newAge;
-                if (age < 18) {
-                    passengerType = new Children();
-                } else if (age > 18 && age < 65) {
-                    passengerType = new Adult();
-                } else {
-                    passengerType = new Senior();
-                }
+//                if (age < 18) {
+//                    passengerType = new Children();
+//                } else if (age > 18 && age < 65) {
+//                    passengerType = new Adult();
+//                } else {
+//                    passengerType = new Senior();
+//                }
             }
         }
 
@@ -126,14 +126,14 @@ public class Passenger extends AbstractEntity {
             this.isArchive = isArchive;
         }
 
-        public void setPassengerType(PassengerType newPassengerType) {
-            if (newPassengerType != null) {
-                passengerType = newPassengerType;
-            }
-        }
+//        public void setPassengerType(PassengerType newPassengerType) {
+//            if (newPassengerType != null) {
+//                passengerType = newPassengerType;
+//            }
+//        }
 
         // Other
-        public double applyDiscount(double price) {
-            return passengerType.applyDiscount(price);
-        }
+        //public double applyDiscount(double price) {
+//            return passengerType.applyDiscount(price);
+//        }
 }

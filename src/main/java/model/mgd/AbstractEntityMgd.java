@@ -10,10 +10,11 @@ import java.io.Serializable;
 import java.util.UUID;
 @Getter
 @Setter
+@NoArgsConstructor
 @SuperBuilder
 public class AbstractEntityMgd implements Serializable {
-    //@BsonProperty("id")
-    private UUID id ;
+    @BsonProperty("_id")
+    protected UUID id ;
 
     @BsonCreator
     public AbstractEntityMgd(@BsonProperty("_id")UUID id){

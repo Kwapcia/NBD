@@ -4,18 +4,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import model.Train;
 import org.bson.codecs.pojo.annotations.BsonCreator;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
 import java.util.UUID;
 @Getter
 @Setter
-//@NoArgsConstructor
+@NoArgsConstructor
 @SuperBuilder
 public class TrainMgd extends AbstractEntityMgd {
-    @BsonProperty("_id")
-    private UUID id;
+//    @BsonProperty("_id")
+//    private UUID id;
 
     @BsonProperty("Base_Price")
     private int basePrice;
@@ -31,6 +30,7 @@ public class TrainMgd extends AbstractEntityMgd {
 
     @BsonProperty("IsArchive")
     private boolean isArchive;
+
 //    public TrainMgd( @BsonProperty("Base_Price") int basePrice,
 //                     @BsonProperty("Seat") String seat,
 //                     @BsonProperty("Starting_Location") String startingLocation,
@@ -44,6 +44,17 @@ public class TrainMgd extends AbstractEntityMgd {
 //    }
 
     @BsonCreator
+    public TrainMgd(@BsonProperty("Base_Price") int basePrice,
+                    @BsonProperty("Seat") String seat,
+                    @BsonProperty("Starting_Location") String startingLocation,
+                    @BsonProperty("Destination") String destination,
+                    @BsonProperty("IsArchive") boolean isArchive){
+        this.basePrice = basePrice;
+        this.seat = seat;
+        this.startingLocation = startingLocation;
+        this.destination = destination;
+        this.isArchive = isArchive;
+    }
     public TrainMgd(@BsonProperty("_id") UUID id,
                      @BsonProperty("Base_Price") int basePrice,
                      @BsonProperty("Seat") String seat,

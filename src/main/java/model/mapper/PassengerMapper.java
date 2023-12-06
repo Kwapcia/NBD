@@ -1,83 +1,100 @@
 package model.mapper;
 
 import model.*;
+import model.mgd.AdultMgd;
+import model.mgd.ChildrenMgd;
 import model.mgd.PassengerMgd;
+import model.mgd.SeniorMgd;
 
 public class PassengerMapper {
-
-    public static PassengerMgd toMongoDocument(Passenger passenger) {
-        return PassengerMgd.builder()
-                .id(passenger.getId())
-                .firstName(passenger.getFirstName())
-                .lastName(passenger.getLastName())
-                .age(passenger.getAge())
-                .isArchive(passenger.isArchive())
-                .passengerType(convertPassengerTypeToMgdType(passenger.getPassengerType()))
-                .build();
+public static PassengerMgd toMongoDocument(Passenger passenger){
+    if(passenger instanceof Adult){
+        return adultToMongoDocument((Adult)passenger);
     }
-
-    public static Passenger toDomainModel(PassengerMgd passengerMgd) {
-        return Passenger.builder()
-                .id(passengerMgd.getId())
-                .firstName(passengerMgd.getFirstName())
-                .lastName(passengerMgd.getLastName())
-                .age(passengerMgd.getAge())
-                .isArchive(passengerMgd.isArchive())
-                .passengerType(convertMgdTypeToPassengerType(passengerMgd.getPassengerType()))
-                .build();
+    else if(passenger instanceof Senior){
+        return seniorToMongoDocument((Senior)passenger);
     }
-
-
-//    public static PassengerMgd.Type createEnumFromPassengerType(PassengerType passengerType) {
-//        switch (passengerType.getTypeInfo()) {
-//            case "CHILDREN":
-//                return PassengerMgd.Type.CHILDREN;
-//            case "ADULT":
-//                return PassengerMgd.Type.ADULT;
-//            case "SENIOR":
-//                return PassengerMgd.Type.SENIOR;
-//            default:
-//                return PassengerMgd.Type.ADULT;
-//        }
-//    }
-//
-//    public static PassengerType createPassengerTypeFromEnum(PassengerMgd.Type type) {
-//        switch (type) {
-//            case CHILDREN:
-//                return new Children();
-//            case ADULT:
-//                return new Adult();
-//            case SENIOR:
-//                return new Senior();
-//            default:
-//                return null;
-//        }
-//    }
-
-    public static PassengerMgd.Type convertPassengerTypeToMgdType(PassengerType passengerType) {
-        switch (passengerType.getTypeInfo()) {
-            case "CHILDREN":
-                return PassengerMgd.Type.CHILDREN;
-            case "ADULT":
-                return PassengerMgd.Type.ADULT;
-            case "SENIOR":
-                return PassengerMgd.Type.SENIOR;
-            default:
-                return PassengerMgd.Type.ADULT;
-        }
+    else if(passenger instanceof Children){
+        return childrenToMongoDocument((Children)passenger);
     }
-
-    public static PassengerType convertMgdTypeToPassengerType(PassengerMgd.Type mgdType) {
-        switch (mgdType) {
-            case CHILDREN:
-                return new Children();
-            case ADULT:
-                return new Adult();
-            case SENIOR:
-                return new Senior();
-            default:
-                return null;
-        }
+    return null;
+}
+public static Passenger toDomainModel(PassengerMgd passenger){
+    if(passenger instanceof AdultMgd){
+        return adultToDomainModel((AdultMgd)passenger);
     }
-
+    else if(passenger instanceof SeniorMgd){
+        return seniorToDomainModel((SeniorMgd)passenger);
+    }
+    else if(passenger instanceof ChildrenMgd){
+        return childrenToDomainModel((ChildrenMgd)passenger);
+    }
+    return null;
+}
+public static PassengerMgd adultToMongoDocument (Adult passenger){
+    return AdultMgd.builder()
+            .firstName(passenger.getFirstName())
+            .lastName(passenger.getLastName())
+            .id(passenger.getId())
+            .age(passenger.getAge())
+            .isArchive(passenger.isArchive())
+            .discount(passenger.getDiscount())
+            .nrDowodu(passenger.getNrDowodu())
+            .build();
+}
+public static  PassengerMgd seniorToMongoDocument (Senior passenger){
+    return SeniorMgd.builder()
+            .firstName(passenger.getFirstName())
+            .lastName(passenger.getLastName())
+            .id(passenger.getId())
+            .age(passenger.getAge())
+            .isArchive(passenger.isArchive())
+            .discount(passenger.getDiscount())
+            .nrKartySeniora(passenger.getNrKartySeniora())
+            .build();
+}
+public static PassengerMgd childrenToMongoDocument(Children passenger){
+    return ChildrenMgd.builder()
+            .firstName(passenger.getFirstName())
+            .lastName(passenger.getLastName())
+            .id(passenger.getId())
+            .age(passenger.getAge())
+            .isArchive(passenger.isArchive())
+            .discount(passenger.getDiscount())
+            .nrLegitymacji(passenger.getNrLegitymacji())
+            .build();
+}
+public static Passenger adultToDomainModel(AdultMgd passenger){
+    return Adult.builder()
+            .firstName(passenger.getFirstName())
+            .lastName(passenger.getLastName())
+            .id(passenger.getId())
+            .age(passenger.getAge())
+            .isArchive(passenger.isArchive())
+            .discount(passenger.getDiscount())
+            .nrDowodu(passenger.getNrDowodu())
+            .build();
+}
+public static Passenger seniorToDomainModel(SeniorMgd passenger){
+    return Senior.builder()
+    .firstName(passenger.getFirstName())
+            .lastName(passenger.getLastName())
+            .id(passenger.getId())
+            .age(passenger.getAge())
+            .isArchive(passenger.isArchive())
+            .discount(passenger.getDiscount())
+            .nrKartySeniora(passenger.getNrKartySeniora())
+            .build();
+}
+public static Passenger childrenToDomainModel(ChildrenMgd passenger){
+    return Children.builder()
+            .firstName(passenger.getFirstName())
+            .lastName(passenger.getLastName())
+            .id(passenger.getId())
+            .age(passenger.getAge())
+            .isArchive(passenger.isArchive())
+            .discount(passenger.getDiscount())
+            .nrLegitymacji(passenger.getNrLegitymacji())
+            .build();
+}
 }
