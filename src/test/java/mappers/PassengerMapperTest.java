@@ -1,18 +1,18 @@
-//package mappers;
-//
-//import model.*;
-//import org.bson.Document;
-//import model.mapper.PassengerMapper;
-//import model.mgd.PassengerMgd;
-//import org.junit.jupiter.api.Test;
-//
-//
-//import java.util.UUID;
-//
-//import static org.junit.jupiter.api.Assertions.*;
-//import static org.junit.jupiter.api.Assertions.assertEquals;
-//
-//public class PassengerMapperTest {
+package mappers;
+
+import model.*;
+import org.bson.Document;
+import model.mapper.PassengerMapper;
+import model.mgd.PassengerMgd;
+import org.junit.jupiter.api.Test;
+
+
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class PassengerMapperTest {
 ////    @Test
 ////    public void testToMongoPassenger() {
 ////        PassengerMgd passengerMgd = new PassengerMgd(
@@ -85,4 +85,4 @@
 //        assertNotNull(type);
 //        assertEquals(PassengerMgd.Type.ADULT, type);
 //    }
-//}
+}

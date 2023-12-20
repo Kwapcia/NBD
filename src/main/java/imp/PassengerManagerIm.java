@@ -3,6 +3,7 @@ package imp;
 import model.Passenger;
 import model.mapper.PassengerMapper;
 import model.mgd.PassengerMgd;
+import org.bson.types.ObjectId;
 import repositories.PassengerRepository;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class PassengerManagerIm implements PassengerManager {
     }
 
     @Override
-    public Optional<Passenger> findPassengerById(UUID id) {
+    public Optional<Passenger> findPassengerById(ObjectId id) {
         return Optional.ofNullable(PassengerMapper.toDomainModel(passengerRepository.findById(id).get()));
     }
 }

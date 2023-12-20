@@ -1,5 +1,6 @@
 package model.mapper;
 
+import model.Passenger;
 import model.Ticket;
 import model.AbstractEntity;
 import model.mgd.PassengerMgd;
@@ -10,13 +11,13 @@ import java.util.Map;
 
 public class TicketMapper {
     public static TicketMgd toMongoDocument(Ticket ticket) {
-        Map<String, PassengerMgd> ticketMgdPassengers = new HashMap<>();
-        ticket.getTicketPassengers().keySet().forEach(key -> {
-            ticketMgdPassengers.put(key, PassengerMapper.toMongoDocument(ticket.getTicketPassengers().get(key)));
-        });
+//        Map<String, PassengerMgd> ticketMgdPassengers = new HashMap<>();
+//        ticket.getTicketPassengers().keySet().forEach(key -> {
+//            ticketMgdPassengers.put(key, PassengerMapper.toMongoDocument(ticket.getTicketPassengers().get(key)));
+//        });
         return TicketMgd.builder()
                 .id(ticket.getId())
-                .ticketPassengers(ticketMgdPassengers)
+                .passenger(PassengerMapper.toMongoDocument(ticket.getPassenger()))
                 .train(TrainMapper.toMongoDocument(ticket.getTrain()))
                 .beginTime(ticket.getBeginTime())
                 .endTime(ticket.getEndTime())

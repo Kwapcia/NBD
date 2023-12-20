@@ -1,5 +1,6 @@
 package model.mgd;
 
+import com.google.gson.Gson;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -7,6 +8,7 @@ import lombok.experimental.SuperBuilder;
 import org.bson.codecs.pojo.annotations.BsonCreator;
 import org.bson.codecs.pojo.annotations.BsonDiscriminator;
 import org.bson.codecs.pojo.annotations.BsonProperty;
+import org.bson.types.ObjectId;
 
 import java.util.UUID;
 @SuperBuilder
@@ -30,7 +32,7 @@ public class PassengerMgd extends AbstractEntityMgd {
 //    }
 
     @BsonProperty("_id")
-    private UUID id;
+    private ObjectId id;
 
     @BsonProperty("First_Name")
     private String firstName;
@@ -50,7 +52,7 @@ public class PassengerMgd extends AbstractEntityMgd {
     @BsonCreator
     public PassengerMgd(@BsonProperty("First_Name") String firstName,
                         @BsonProperty("Last_Name") String lastName,
-                        @BsonProperty("_id") UUID id,
+                        @BsonProperty("_id") ObjectId id,
                         @BsonProperty("Age") int age,
 //                        @BsonProperty("Passenger_Type")PassengerMgd.Type passengerType,
                         @BsonProperty("Is_Archived") boolean isArchive) {
@@ -70,7 +72,7 @@ public class PassengerMgd extends AbstractEntityMgd {
         return lastName;
     }
 
-    public UUID getId() {
+    public ObjectId getId() {
         return id;
     }
 
@@ -102,7 +104,16 @@ public class PassengerMgd extends AbstractEntityMgd {
     public void setArchive(boolean isArchive) {
         this.isArchive = isArchive;
     }
+    public String toJson(){
+        Gson gson = new Gson();
+        return gson.toJson(this);
+    }
+    public static PassengerMgd fromJson(String json){
+        Gson gson = new Gson();
+        return gson.fromJson(json,PassengerMgd.class);
+    }
 }
+
 
 //   public void setPassengerType(Type passengerType){
 //        this.passengerType = passengerType;

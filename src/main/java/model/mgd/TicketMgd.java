@@ -1,9 +1,12 @@
 package model.mgd;
 
+import com.google.gson.Gson;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import model.Passenger;
 import org.bson.codecs.pojo.annotations.BsonCreator;
 import org.bson.codecs.pojo.annotations.BsonProperty;
+import org.bson.types.ObjectId;
 import org.joda.time.DateTime;
 
 import java.util.Map;
@@ -26,14 +29,14 @@ public class TicketMgd extends AbstractEntityMgd{
     private float ticketCost;
 //    @BsonProperty("Passenger")
 //    private PassengerMgd passenger;
-    @BsonProperty("ticket_passengers")
-    private Map<String, PassengerMgd> ticketPassengers;
+    @BsonProperty("Passenger")
+    private PassengerMgd passenger;
     @BsonProperty("Train")
     private TrainMgd train;
 
     @BsonCreator
     public TicketMgd(//@BsonProperty("id")UUID id,
-                     @BsonProperty("ticket_passengers") Map<String,PassengerMgd>ticketPassengers,
+                     @BsonProperty("Passenger")PassengerMgd passenger,
                      @BsonProperty("Train")TrainMgd train,
                      @BsonProperty("Begin_Time") DateTime beginTime,
                      @BsonProperty("End_Time") DateTime endTime,
@@ -41,20 +44,28 @@ public class TicketMgd extends AbstractEntityMgd{
                      )
     {
         //super(id);
-        this.ticketPassengers=ticketPassengers;
+        this.passenger = passenger;
         this.train = train;
         this.beginTime = beginTime;
         this.endTime = endTime;
         this.ticketCost = ticketCost;
     }
 
-    public TicketMgd(UUID id, DateTime beginTime, DateTime endTime, float ticketCost, Map<String, PassengerMgd> ticketPassengers, TrainMgd train) {
+    public TicketMgd(ObjectId id, DateTime beginTime, DateTime endTime, float ticketCost, PassengerMgd passenger, TrainMgd train) {
         super(id);
         this.beginTime = beginTime;
         this.endTime = endTime;
         this.ticketCost = ticketCost;
-        this.ticketPassengers = ticketPassengers;
+        this.passenger=passenger;
         this.train = train;
+    }
+    public String toJson(){
+        Gson gson = new Gson();
+        return gson.toJson(this);
+    }
+    public static TicketMgd fromJson(String json){
+        Gson gson = new Gson();
+        return gson.fromJson(json,TicketMgd.class);
     }
 //    public UUID getId(){
 //        return id;

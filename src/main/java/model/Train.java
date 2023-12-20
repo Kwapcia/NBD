@@ -1,5 +1,6 @@
 package model;
 import lombok.experimental.SuperBuilder;
+import org.bson.types.ObjectId;
 
 import java.util.UUID;
 
@@ -27,7 +28,7 @@ public class Train extends AbstractEntity {
         this.isArchive = isArchive;
     }
 
-    public Train(int basePrice, UUID id, String seat, String startingLocation, String destination) {
+    public Train(int basePrice, ObjectId id, String seat, String startingLocation, String destination) {
             super(id);
             this.basePrice = basePrice;
             this.seat = seat;
@@ -54,7 +55,7 @@ public class Train extends AbstractEntity {
             return basePrice;
         }
 
-        public UUID getId() {
+        public ObjectId getId() {
             return id;
         }
 

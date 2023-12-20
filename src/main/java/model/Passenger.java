@@ -3,6 +3,7 @@ package model;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import model.mgd.PassengerMgd;
+import org.bson.types.ObjectId;
 
 import java.util.UUID;
 
@@ -10,7 +11,7 @@ import java.util.UUID;
 @SuperBuilder
 public class Passenger extends AbstractEntity {
 
-        private UUID id;
+        private ObjectId id;
 
         private String firstName;
 
@@ -20,9 +21,9 @@ public class Passenger extends AbstractEntity {
 
         private boolean isArchive;
 
-        private Children passengerType;
+       // private Children passengerType;
 
-        public Passenger(String firstName, String lastName, UUID id, int age) {
+        public Passenger(String firstName, String lastName, ObjectId id, int age) {
 
             if (firstName == null || firstName.isEmpty()) {
                 throw new IllegalArgumentException("Invalid firstName (can't be empty)!");
@@ -55,7 +56,7 @@ public class Passenger extends AbstractEntity {
 //            }
         }
 
-    public Passenger( String firstName, String lastName,UUID id, int age, boolean isArchive) {
+    public Passenger( String firstName, String lastName,ObjectId id, int age, boolean isArchive) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -80,7 +81,7 @@ public class Passenger extends AbstractEntity {
             return lastName;
         }
 
-        public UUID getId() {
+        public ObjectId getId() {
             return id;
         }
 

@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import org.bson.types.ObjectId;
 
 import java.util.UUID;
 @Getter
@@ -17,7 +18,7 @@ public class Senior extends Passenger {
     private String discount;
     private String nrKartySeniora;
 
-    public Senior(String firstName, String lastName, UUID id, int age, boolean isArchive, String discount, String nrKartySeniora) {
+    public Senior(String firstName, String lastName, ObjectId id, int age, boolean isArchive, String discount, String nrKartySeniora) {
         super(firstName, lastName, id, age, isArchive);
         this.discount = discount;
         this.nrKartySeniora = nrKartySeniora;

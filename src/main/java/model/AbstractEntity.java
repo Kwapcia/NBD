@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.bson.types.ObjectId;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -17,5 +18,5 @@ import java.util.UUID;
 @SuperBuilder
 public abstract class AbstractEntity implements Serializable {
 
-    protected UUID id;
+    protected ObjectId id;
 }

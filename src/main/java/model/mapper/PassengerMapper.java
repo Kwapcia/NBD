@@ -6,7 +6,9 @@ import model.mgd.ChildrenMgd;
 import model.mgd.PassengerMgd;
 import model.mgd.SeniorMgd;
 
+
 public class PassengerMapper {
+
 public static PassengerMgd toMongoDocument(Passenger passenger){
     if(passenger instanceof Adult){
         return adultToMongoDocument((Adult)passenger);
@@ -75,6 +77,7 @@ public static Passenger adultToDomainModel(AdultMgd passenger){
             .nrDowodu(passenger.getNrDowodu())
             .build();
 }
+
 public static Passenger seniorToDomainModel(SeniorMgd passenger){
     return Senior.builder()
     .firstName(passenger.getFirstName())

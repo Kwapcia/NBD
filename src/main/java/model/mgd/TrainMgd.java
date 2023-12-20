@@ -1,11 +1,13 @@
 package model.mgd;
 
+import com.google.gson.Gson;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.bson.codecs.pojo.annotations.BsonCreator;
 import org.bson.codecs.pojo.annotations.BsonProperty;
+import org.bson.types.ObjectId;
 
 import java.util.UUID;
 @Getter
@@ -55,7 +57,7 @@ public class TrainMgd extends AbstractEntityMgd {
         this.destination = destination;
         this.isArchive = isArchive;
     }
-    public TrainMgd(@BsonProperty("_id") UUID id,
+    public TrainMgd(@BsonProperty("_id") ObjectId id,
                      @BsonProperty("Base_Price") int basePrice,
                      @BsonProperty("Seat") String seat,
                      @BsonProperty("Starting_Location") String startingLocation,
@@ -67,6 +69,14 @@ public class TrainMgd extends AbstractEntityMgd {
         this.startingLocation = startingLocation;
         this.destination = destination;
         this.isArchive = isArchive;
+    }
+    public String toJson(){
+        Gson gson = new Gson();
+        return gson.toJson(this);
+    }
+    public static TrainMgd fromJson(String json){
+        Gson gson = new Gson();
+        return gson.fromJson(json,TrainMgd.class);
     }
     //public UUID getId(){
 //        return id;

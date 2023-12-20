@@ -18,6 +18,7 @@ import org.bson.codecs.pojo.ClassModel;
 import org.bson.codecs.pojo.Conventions;
 import org.bson.codecs.pojo.PojoCodecProvider;
 import org.bson.conversions.Bson;
+import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,7 +87,7 @@ public class AbstractMongoRepository<T extends AbstractEntityMgd> implements Rep
 
 
     @Override
-    public Optional<T> findById(UUID id) {
+    public Optional<T> findById(ObjectId id) {
         MongoCollection<T> collection = trainStationDB.getCollection(collectionName, tClass);
         Bson filter = Filters.eq("_id", id);
         Optional<T> found = Optional.of(collection.find(filter).first());
@@ -98,7 +99,7 @@ public class AbstractMongoRepository<T extends AbstractEntityMgd> implements Rep
     public T add (T entity) {
         MongoCollection<T> collection = trainStationDB.getCollection(collectionName,tClass);
         if(entity.getId()==null) {
-            entity.setId(UUID.randomUUID());
+            entity.setId(new ObjectId());
         }
         else {
             throw new EntityExistsException("Już istnieje z tym UUID");
@@ -136,5 +137,8 @@ public class AbstractMongoRepository<T extends AbstractEntityMgd> implements Rep
         mongoClient.getDatabase("test").drop();
         mongoClient.close();
 
+    }
+    public void drop() {
+        trainStationDB.drop();
     }
 }

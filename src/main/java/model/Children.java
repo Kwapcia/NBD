@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import org.bson.types.ObjectId;
 
 import java.util.UUID;
 @Getter
@@ -16,7 +17,7 @@ public class Children extends Passenger{
     private String discount;
     private String nrLegitymacji;
 
-    public Children(String firstName, String lastName, UUID id, int age, String discount, String nrLegitymacji) {
+    public Children(String firstName, String lastName, ObjectId id, int age, String discount, String nrLegitymacji) {
         super(firstName, lastName, id, age);
         this.discount = discount;
         this.nrLegitymacji = nrLegitymacji;

@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import org.bson.types.ObjectId;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 import org.joda.time.PeriodType;
@@ -23,7 +24,7 @@ public class Ticket extends AbstractEntity {
     //private UUID id;
 
     //private Passenger passenger;
-    private Map<String,Passenger>ticketPassengers;
+    private Passenger passenger;
 
     private Train train;
 
@@ -33,10 +34,10 @@ public class Ticket extends AbstractEntity {
 
     private float ticketCost;
 
-    public Ticket(UUID id, Map<String , Passenger>ticketPassengers, Train train, DateTime beginTime) {
+    public Ticket(ObjectId id, Passenger passenger, Train train, DateTime beginTime) {
        super(id);
        // this.passenger = passenger;
-        this.ticketPassengers=ticketPassengers;
+        this.passenger=passenger;
         this.train = train;
         if (beginTime == null) {
             this.beginTime = DateTime.now();
@@ -46,7 +47,7 @@ public class Ticket extends AbstractEntity {
         this.endTime = null;
         this.ticketCost = 0.0f;
 
-        if (ticketPassengers == null) {
+        if (passenger == null) {
             throw new IllegalArgumentException("Need passenger!");
         }
         if (train == null) {
@@ -54,9 +55,9 @@ public class Ticket extends AbstractEntity {
         }
     }
 
-    public Ticket(Map<String ,Passenger>ticketPassengers, Train train, DateTime beginTime, DateTime endTime, float ticketCost) {
+    public Ticket(Passenger passenger, Train train, DateTime beginTime, DateTime endTime, float ticketCost) {
         //super(id);
-        this.ticketPassengers = ticketPassengers;
+        this.passenger = passenger;
         this.train = train;
         this.beginTime = beginTime;
         this.endTime = endTime;
@@ -71,7 +72,7 @@ public class Ticket extends AbstractEntity {
                 train.getInfo() + "; begin time: " + beginTimeString + "; end time: " + endTimeString + "; paid: " + ticketCost;
     }
 
-    public UUID getId() {
+    public ObjectId getId() {
         return id;
     }
 

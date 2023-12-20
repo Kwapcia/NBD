@@ -1,6 +1,7 @@
 package imp;
 
 import model.Train;
+import org.bson.types.ObjectId;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -10,5 +11,5 @@ public interface TrainManager {
     Train updateTrain(Train train);
     void removeTrain(Train train);
     List<Train> findAllTrains();
-    Optional<Train> findTrainsById(UUID id);
+    Optional<Train> findTrainsById(ObjectId id);
 }

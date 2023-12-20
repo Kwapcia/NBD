@@ -3,6 +3,7 @@ package imp;
 import model.Train;
 import model.mapper.TrainMapper;
 import model.mgd.TrainMgd;
+import org.bson.types.ObjectId;
 import repositories.TrainRepository;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class TrainManagerIm implements TrainManager{
         return trains;
     }
     @Override
-    public Optional<Train> findTrainsById(UUID id){
+    public Optional<Train> findTrainsById(ObjectId id){
         return  Optional.of(TrainMapper.toDomainModel(trainRepository.findById(id).get()));
     }
     @Override
