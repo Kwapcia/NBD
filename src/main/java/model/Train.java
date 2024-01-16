@@ -1,34 +1,42 @@
 package model;
+import com.datastax.oss.driver.api.mapper.annotations.*;
+import com.datastax.oss.driver.api.mapper.annotations.Entity;
+import com.datastax.oss.driver.api.mapper.entity.naming.GetterStyle;
+import com.datastax.oss.driver.api.mapper.entity.naming.NamingConvention;
+import com.datastax.oss.driver.api.mapper.entity.naming.SetterStyle;
+import ids.CassandraIds;
 import lombok.experimental.SuperBuilder;
 import org.bson.types.ObjectId;
 
 import java.util.UUID;
 
 
-@SuperBuilder
+@Entity(defaultKeyspace = CassandraIds.KEYSPACE)
+@CqlName(CassandraIds.TRAIN_TABLE)
+@HierarchyScanStrategy(scanAncestors = true,highestAncestor = AbstractEntity.class,includeHighestAncestor = true)
+@PropertyStrategy(mutable = true,getterStyle = GetterStyle.JAVABEANS,setterStyle = SetterStyle.JAVABEANS)
+@NamingStrategy(convention = NamingConvention.SNAKE_CASE_INSENSITIVE)
 public class Train extends AbstractEntity {
 
         //private UUID id;
 
+        @CqlName("base_price")
         private int basePrice;
 
+
+        @CqlName("seat")
         private String seat;
 
+        @CqlName("starting_location")
         private String startingLocation;
 
+        @CqlName("destination")
         private String destination;
 
         private boolean isArchive;
+        public Train(){}
 
-    public Train(int basePrice, String seat, String startingLocation, String destination, boolean isArchive) {
-        this.basePrice = basePrice;
-        this.seat = seat;
-        this.startingLocation = startingLocation;
-        this.destination = destination;
-        this.isArchive = isArchive;
-    }
-
-    public Train(int basePrice, ObjectId id, String seat, String startingLocation, String destination) {
+    public Train(int basePrice, UUID id, String seat, String startingLocation, String destination,boolean isArchive) {
             super(id);
             this.basePrice = basePrice;
             this.seat = seat;
@@ -55,9 +63,9 @@ public class Train extends AbstractEntity {
             return basePrice;
         }
 
-        public ObjectId getId() {
-            return id;
-        }
+//        public UUID getId() {
+//            return id;
+//        }
 
         public String getSeat() {
             return seat;
@@ -75,7 +83,8 @@ public class Train extends AbstractEntity {
             return isArchive;
         }
 
-        // Setters
+
+    // Setters
         public void setBasePrice(int newBasePrice) {
             if (newBasePrice >= 0) {
                 basePrice = newBasePrice;
@@ -100,14 +109,14 @@ public class Train extends AbstractEntity {
             }
         }
 
-        public void setArchiveStatus(boolean newStatus) {
+        public void setArchive(boolean newStatus) {
             isArchive = newStatus;
         }
 
         // Other methods
-        public String getInfo() {
-            return "(Train) base price: " + basePrice + ", id: " + id + ", seat: " + seat +
-                    ", starting location: " + startingLocation + ", destination: " + destination +
-                    ", is archived: " + (isArchive ? "true" : "false");
-        }
+//        public String getInfo() {
+//            return "(Train) base price: " + basePrice + ", id: " + id + ", seat: " + seat +
+//                    ", starting location: " + startingLocation + ", destination: " + destination +
+//                    ", is archived: " + (isArchive ? "true" : "false");
+//        }
 }

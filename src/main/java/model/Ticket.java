@@ -1,44 +1,47 @@
 package model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.experimental.SuperBuilder;
-import org.bson.types.ObjectId;
+import com.datastax.oss.driver.api.mapper.annotations.*;
+import com.datastax.oss.driver.api.mapper.annotations.Entity;
+import com.datastax.oss.driver.api.mapper.entity.naming.GetterStyle;
+import com.datastax.oss.driver.api.mapper.entity.naming.NamingConvention;
+import com.datastax.oss.driver.api.mapper.entity.naming.SetterStyle;
+import ids.CassandraIds;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 import org.joda.time.PeriodType;
-
-import java.io.Serializable;
-import java.util.Map;
 import java.util.UUID;
 
-@SuperBuilder
-@Getter
-@Setter
-@NoArgsConstructor
-@ToString
+@Entity(defaultKeyspace = CassandraIds.KEYSPACE)
+@CqlName(CassandraIds.TICKET_TABLE)
+@HierarchyScanStrategy(scanAncestors = true,highestAncestor = AbstractEntity.class,includeHighestAncestor = true)
+@PropertyStrategy(mutable = true,getterStyle = GetterStyle.JAVABEANS,setterStyle = SetterStyle.JAVABEANS)
+@NamingStrategy(convention = NamingConvention.SNAKE_CASE_INSENSITIVE)
 public class Ticket extends AbstractEntity {
 
-    //private UUID id;
 
-    //private Passenger passenger;
-    private Passenger passenger;
+    @CqlName("passenger_id")
+    private UUID passengerId;
 
-    private Train train;
+    @CqlName("train_id")
+    private UUID trainId;
 
+    @CqlName("begin_time")
     private DateTime beginTime;
 
+    @CqlName("end_time")
     private DateTime endTime;
 
+    @CqlName("ticket_cost")
     private float ticketCost;
 
-    public Ticket(ObjectId id, Passenger passenger, Train train, DateTime beginTime) {
+    public Train train;
+    public Ticket(){}
+
+    public Ticket(UUID id, UUID passengerId,UUID trainId, DateTime beginTime, DateTime endTime, float ticketCost) {
        super(id);
        // this.passenger = passenger;
-        this.passenger=passenger;
-        this.train = train;
+        this.passengerId=passengerId;
+        this.trainId=trainId;
         if (beginTime == null) {
             this.beginTime = DateTime.now();
         } else {
@@ -47,34 +50,46 @@ public class Ticket extends AbstractEntity {
         this.endTime = null;
         this.ticketCost = 0.0f;
 
-        if (passenger == null) {
+        if (passengerId == null) {
             throw new IllegalArgumentException("Need passenger!");
         }
-        if (train == null) {
+        if (trainId == null) {
             throw new IllegalArgumentException("Need train!");
         }
-    }
-
-    public Ticket(Passenger passenger, Train train, DateTime beginTime, DateTime endTime, float ticketCost) {
-        //super(id);
-        this.passenger = passenger;
-        this.train = train;
-        this.beginTime = beginTime;
         this.endTime = endTime;
         this.ticketCost = ticketCost;
     }
 
-    // Getters
-    public String getInfo() {
-        String beginTimeString = beginTime != null ? beginTime.toString() : "Not set";
-        String endTimeString = endTime != null ? endTime.toString() : "Not set";
-        return "Ticket id: " +
-                train.getInfo() + "; begin time: " + beginTimeString + "; end time: " + endTimeString + "; paid: " + ticketCost;
+    public UUID getPassengerId() {
+        return passengerId;
     }
 
-    public ObjectId getId() {
-        return id;
+    public void setPassegerId(UUID passengerId) {
+        this.passengerId = passengerId;
     }
+
+    public void setTrainId(UUID trainId) {
+        this.trainId = trainId;
+    }
+
+    public void setBeginTime(DateTime beginTime) {
+        this.beginTime = beginTime;
+    }
+
+    public void setEndTime(DateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public void setTicketCost(float ticketCost) {
+        this.ticketCost = ticketCost;
+    }
+// Getters
+//    public String getInfo() {
+//        String beginTimeString = beginTime != null ? beginTime.toString() : "Not set";
+//        String endTimeString = endTime != null ? endTime.toString() : "Not set";
+//        return "Ticket id: " +
+//                train.getInfo() + "; begin time: " + beginTimeString + "; end time: " + endTimeString + "; paid: " + ticketCost;
+//    }
 
     public DateTime getBeginTime() {
         return beginTime;
@@ -88,12 +103,9 @@ public class Ticket extends AbstractEntity {
         return ticketCost;
     }
 
-//    public Passenger getPassenger() {
-//        return passenger;
-//    }
 
-    public Train getTrain() {
-        return train;
+    public UUID getTrainId() {
+        return trainId;
     }
 
     // Other

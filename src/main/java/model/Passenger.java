@@ -1,63 +1,83 @@
 package model;
 
+import com.datastax.oss.driver.api.mapper.annotations.*;
+import com.datastax.oss.driver.api.mapper.annotations.Entity;
+import com.datastax.oss.driver.api.mapper.entity.naming.GetterStyle;
+import com.datastax.oss.driver.api.mapper.entity.naming.NamingConvention;
+import com.datastax.oss.driver.api.mapper.entity.naming.SetterStyle;
+import ids.CassandraIds;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import model.mgd.PassengerMgd;
 import org.bson.types.ObjectId;
 
 import java.util.UUID;
 
-@NoArgsConstructor
-@SuperBuilder
+@Entity(defaultKeyspace = CassandraIds.KEYSPACE)
+@CqlName(CassandraIds.PASSENGER_TABLE)
+@HierarchyScanStrategy(scanAncestors = true,highestAncestor = AbstractEntity.class,includeHighestAncestor = true)
+@PropertyStrategy(mutable = true,getterStyle = GetterStyle.JAVABEANS,setterStyle = SetterStyle.JAVABEANS)
+@NamingStrategy(convention = NamingConvention.SNAKE_CASE_INSENSITIVE)
 public class Passenger extends AbstractEntity {
 
-        private ObjectId id;
+        private UUID id;
 
+        @CqlName("first_name")
         private String firstName;
-
+        @CqlName("last_name")
         private String lastName;
 
+        @CqlName("age")
         private int age;
 
         private boolean isArchive;
+        @CqlName("discount")
+        private double discount;
 
        // private Children passengerType;
 
-        public Passenger(String firstName, String lastName, ObjectId id, int age) {
 
-            if (firstName == null || firstName.isEmpty()) {
-                throw new IllegalArgumentException("Invalid firstName (can't be empty)!");
-            }
-            if (lastName == null || lastName.isEmpty()) {
-                throw new IllegalArgumentException("Invalid lastName (can't be empty)!");
-            }
-            if (id == null) {
-                throw new IllegalArgumentException("Invalid id (can't be empty)!");
-            }
-            if (age <= 0) {
-                throw new IllegalArgumentException("Invalid age!");
-            }
-            if (age > 120) {
-                throw new IllegalArgumentException("Invalid age!");
-            }
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
-            this.firstName = firstName;
-            this.lastName = lastName;
-            this.id = id;
-            this.age = age;
-            this.isArchive = false;
+    public void setArchive(boolean archive) {
+        isArchive = archive;
+    }
 
-//            if (age < 18) {
+    public void setDiscount(double discount) {
+        this.discount = discount;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+    public Passenger() {}
+
+    public Passenger(String firstName, String lastName, UUID id, int age,boolean isArchive) {
+        super(id);
+        if (firstName == null || firstName.isEmpty()) {
+            throw new IllegalArgumentException("Invalid firstName (can't be empty)!");
+        }
+        if (lastName == null || lastName.isEmpty()) {
+            throw new IllegalArgumentException("Invalid lastName (can't be empty)!");
+        }
+        if (id == null) {
+            throw new IllegalArgumentException("Invalid id (can't be empty)!");
+        }
+        if (age <= 0) {
+            throw new IllegalArgumentException("Invalid age!");
+        }
+        if (age > 120) {
+            throw new IllegalArgumentException("Invalid age!");
+        }
+        //            if (age < 18) {
 //                this.passengerType = new Children();
 //            } else if (age > 18 && age < 65) {
 //                this.passengerType = new Adult();
 //            } else {
 //                this.passengerType = new Senior();
 //            }
-        }
 
-    public Passenger( String firstName, String lastName,ObjectId id, int age, boolean isArchive) {
-        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
@@ -81,7 +101,7 @@ public class Passenger extends AbstractEntity {
             return lastName;
         }
 
-        public ObjectId getId() {
+        public UUID getId() {
             return id;
         }
 

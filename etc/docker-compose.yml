@@ -1,128 +1,88 @@
 version: '3.8'
-
 services:
-
-  redis-stack:
-    image: redis/redis-stack:latest
+  cassandra1:
+    image: docker.io/bitnami/cassandra:latest
+    hostname: cassandra1
+    ports:
+      - 7000:7000
+      - 9042:9042
     volumes:
-      - redis-stack-data:/bitnami/redis/data
-    ports:
-      - "8001:8001"
-      - "6379:6379"
+      - cassandra1_data:/bitnami
     networks:
-      - redisnet
-
-  mongo_1:
-    build: .
-    image: mongocustom:6.0.2
-    container_name: mongodb1
-    hostname: mongodb1
-    networks:
-      - mongonet
-    ports:
-      - "27017:27017"
+      - cassandranet
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=adminpassword
-    command: --config /etc/mongod.conf --port 27017
+      - CASSANDRA_LISTEN_ADDRESS=cassandra1
+      - CASSANDRA_BROADCAST_ADDRESS=cassandra1
+      - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra3
+      - CASSANDRA_CLUSTER_NAME =cassandra-cluster-nbd
+      - CASSANDRA_DC=dc1
+      - CASSANDRA_PASSWORD_SEEDER=yes
+      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+      - CASSANDRA_USER=cassandra
+      - CASSNADRA_PASSWORD=cassandra
     healthcheck:
-      test: [ "CMD", "mongosh", "--port", "27017", "--eval", "db.adminCommand('ping')" ]
+      test: ["CMD-SHELL","[$$(nodetool statusgossip)=running]"]
       interval: 30s
-      timeout: 15s
-      retries: 10
-
-  mongo_2:
-    build: .
-    image: mongocustom:6.0.2
-    container_name: mongodb2
-    hostname: mongodb2
-    networks:
-      - mongonet
+      timeout: 30s
+      retries: 5
+  cassandra2:
+    image: docker.io/bitnami/cassandra:latest
+    hostname: cassandra2
     ports:
-      - "27018:27018"
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=adminpassword
-    command: --config /etc/mongod.conf --port 27018
-    healthcheck:
-      test: [ "CMD", "mongosh", "--port", "27018", "--eval", "db.adminCommand('ping')" ]
-      interval: 30s
-      timeout: 15s
-      retries: 10
-
-  mongo_3:
-    build: .
-    image: mongocustom:6.0.2
-    container_name: mongodb3
-    hostname: mongodb3
+      - 7001:7000
+      - 9043:9042
+    volumes:
+      - cassandra2_data:/bitnami
     networks:
-      - mongonet
+      - cassandranet
+    environment:
+      - CASSANDRA_LISTEN_ADDRESS=cassandra2
+      - CASSANDRA_BROADCAST_ADDRESS=cassandra2
+      - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra3
+      - CASSANDRA_CLUSTER_NAME=cassandra-cluster-nbd
+      - CASSANDRA_DC=dc2
+      - CASSANDRA_PASSWORD_SEEDER=yes
+      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+      - CASSANDRA_USER=cassandra
+      - CASSANDRA_PASSWORD=cassandra
+    healthcheck:
+      test: ["CMD-SHELL", "[ $$(nodetool statusgossip) = running ]"]
+      interval: 30s
+      timeout: 30s
+      retries: 5
+  cassandra3:
+    image: docker.io/bitnami/cassandra:latest
+    hostname: cassandra3
     ports:
-      - "27019:27019"
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=adminpassword
-    command: --config /etc/mongod.conf --port 27019
-    healthcheck:
-      test: [ "CMD", "mongosh", "--port", "27019", "--eval", "db.adminCommand('ping')" ]
-      interval: 30s
-      timeout:  5s
-      retries:  15
-
-  mongoinit:
-    build: .
-    image: mongocustom:6.0.2
-    hostname: mongodbinit
-    container_name: mongodbinit
+      - 7002:7000
+      - 9044:9042
+    volumes:
+      - cassandra3_data:/bitnami
     networks:
-      - mongonet
-    depends_on:
-      mongo_1:
-        condition: service_healthy
-      mongo_2:
-        condition: service_healthy
-      mongo_3:
-        condition: service_healthy
-    command: >
-      mongosh --host mongodb1:27017 --username admin --password adminpassword --authenticationDatabase admin --eval
-      '
-      rs.initiate(
-        {
-          _id: "replica_set_single",
-          version: 1,
-          members: [
-            { _id: 0, host : "mongodb1:27017" },
-            { _id: 1, host : "mongodb2:27018" },
-            { _id: 2, host : "mongodb3:27019" }
-          ]
-        }
-      );
-      '
+      - cassandranet
+    environment:
+      - CASSANDRA_LISTEN_ADDRESS=cassandra3
+      - CASSANDRA_BROADCAST_ADDRESS=cassandra3
+      - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra3
+      - CASSANDRA_CLUSTER_NAME=cassandra-cluster-nbd
+      - CASSANDRA_DC=dc3
+      - CASSANDRA_PASSWORD_SEEDER=yes
+      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+      - CASSANDRA_USER=cassandra
+      - CASSANDRA_PASSWORD=cassandra
+    healthcheck:
+      test: [ "CMD-SHELL", "[ $$(nodetool statusgossip) = running ]" ]
+      interval: 30s
+      timeout: 30s
+      retries: 5
+
 volumes:
-  redis-stack-data:
+  cassandra1_data:
+    driver: local
+  cassandra2_data:
+    driver: local
+  cassandra3_data:
     driver: local
 
 networks:
-  mongonet: {}
-  redisnet: {}
-
-
-#  db:
-#    image: postgres
-#    restart: always
-#    environment:
-#      POSTGRES_DB: nbddb
-#      POSTGRES_USER: nbd
-#      POSTGRES_PASSWORD: nbdpassword
-#    ports:
-#      - 5433:5432
-#    volumes:
-#      - db:/var/lib/postgresql/data
-#  adminer:
-#    image: adminer
-#    restart: always
-#    ports:
-#      - 8080:8080
-#volumes:
-#  db:
-#    driver: local
+  cassandranet: {}
