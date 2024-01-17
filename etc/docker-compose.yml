@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.9'
 services:
   cassandra1:
     image: docker.io/bitnami/cassandra:latest
@@ -9,17 +9,18 @@ services:
     volumes:
       - cassandra1_data:/bitnami
     networks:
-      - cassandranet
+      cassandranet:
+        ipv4_address: 172.18.0.2
     environment:
       - CASSANDRA_LISTEN_ADDRESS=cassandra1
       - CASSANDRA_BROADCAST_ADDRESS=cassandra1
-      - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra3
-      - CASSANDRA_CLUSTER_NAME =cassandra-cluster-nbd
-      - CASSANDRA_DC=dc1
+      - CASSANDRA_SEEDS=cassandra1,cassandra2
+      - CASSANDRA_CLUSTER_NAME=cassandra-cluster-nbd
+      - CASSANDRA_DATACENTER=dc1
       - CASSANDRA_PASSWORD_SEEDER=yes
       - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
       - CASSANDRA_USER=cassandra
-      - CASSNADRA_PASSWORD=cassandra
+      - CASSANDRA_PASSWORD=cassandra
     healthcheck:
       test: ["CMD-SHELL","[$$(nodetool statusgossip)=running]"]
       interval: 30s
@@ -34,13 +35,14 @@ services:
     volumes:
       - cassandra2_data:/bitnami
     networks:
-      - cassandranet
+      cassandranet :
+        ipv4_address: 172.18.0.3
     environment:
       - CASSANDRA_LISTEN_ADDRESS=cassandra2
       - CASSANDRA_BROADCAST_ADDRESS=cassandra2
-      - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra3
+      - CASSANDRA_SEEDS=cassandra1,cassandra2
       - CASSANDRA_CLUSTER_NAME=cassandra-cluster-nbd
-      - CASSANDRA_DC=dc2
+      - CASSANDRA_DATACENTER=dc2
       - CASSANDRA_PASSWORD_SEEDER=yes
       - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
       - CASSANDRA_USER=cassandra
@@ -50,39 +52,16 @@ services:
       interval: 30s
       timeout: 30s
       retries: 5
-  cassandra3:
-    image: docker.io/bitnami/cassandra:latest
-    hostname: cassandra3
-    ports:
-      - 7002:7000
-      - 9044:9042
-    volumes:
-      - cassandra3_data:/bitnami
-    networks:
-      - cassandranet
-    environment:
-      - CASSANDRA_LISTEN_ADDRESS=cassandra3
-      - CASSANDRA_BROADCAST_ADDRESS=cassandra3
-      - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra3
-      - CASSANDRA_CLUSTER_NAME=cassandra-cluster-nbd
-      - CASSANDRA_DC=dc3
-      - CASSANDRA_PASSWORD_SEEDER=yes
-      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
-      - CASSANDRA_USER=cassandra
-      - CASSANDRA_PASSWORD=cassandra
-    healthcheck:
-      test: [ "CMD-SHELL", "[ $$(nodetool statusgossip) = running ]" ]
-      interval: 30s
-      timeout: 30s
-      retries: 5
 
 volumes:
   cassandra1_data:
     driver: local
   cassandra2_data:
     driver: local
-  cassandra3_data:
-    driver: local
-
 networks:
-  cassandranet: {}
+  cassandranet:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.18.0.0/16

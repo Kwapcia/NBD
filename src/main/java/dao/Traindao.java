@@ -2,11 +2,8 @@ package dao;
 
 import com.datastax.oss.driver.api.mapper.annotations.*;
 import ids.CassandraIds;
-import jnr.ffi.annotations.In;
 import model.Train;
-import org.bson.types.ObjectId;
 
-import java.net.CacheRequest;
 import java.util.UUID;
 
 @Dao

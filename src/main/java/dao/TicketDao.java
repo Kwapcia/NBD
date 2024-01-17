@@ -3,7 +3,6 @@ package dao;
 import com.datastax.oss.driver.api.mapper.annotations.*;
 import ids.CassandraIds;
 import model.Ticket;
-import org.bson.types.ObjectId;
 
 import java.util.UUID;
 

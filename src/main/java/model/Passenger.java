@@ -2,21 +2,16 @@ package model;
 
 import com.datastax.oss.driver.api.mapper.annotations.*;
 import com.datastax.oss.driver.api.mapper.annotations.Entity;
-import com.datastax.oss.driver.api.mapper.entity.naming.GetterStyle;
-import com.datastax.oss.driver.api.mapper.entity.naming.NamingConvention;
-import com.datastax.oss.driver.api.mapper.entity.naming.SetterStyle;
 import ids.CassandraIds;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
-import org.bson.types.ObjectId;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.UUID;
 
 @Entity(defaultKeyspace = CassandraIds.KEYSPACE)
 @CqlName(CassandraIds.PASSENGER_TABLE)
-@HierarchyScanStrategy(scanAncestors = true,highestAncestor = AbstractEntity.class,includeHighestAncestor = true)
-@PropertyStrategy(mutable = true,getterStyle = GetterStyle.JAVABEANS,setterStyle = SetterStyle.JAVABEANS)
-@NamingStrategy(convention = NamingConvention.SNAKE_CASE_INSENSITIVE)
+@Getter
+@Setter
 public class Passenger extends AbstractEntity {
 
         private UUID id;

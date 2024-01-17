@@ -1,7 +1,5 @@
 package model;
 
-import org.bson.types.ObjectId;
-
 import java.util.UUID;
 
 public interface Entity {
