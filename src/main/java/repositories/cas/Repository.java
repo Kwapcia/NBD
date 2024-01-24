@@ -1,7 +1,6 @@
 package repositories.cas;
 
 import ids.CassandraIds;
-import org.bson.types.ObjectId;
 
 import java.util.UUID;
 

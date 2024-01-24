@@ -15,8 +15,6 @@ import java.util.UUID;
 @Getter
 @Setter
 public class Ticket extends AbstractEntity {
-
-
     @CqlName("passenger_id")
     private UUID passengerId;
 
@@ -35,9 +33,8 @@ public class Ticket extends AbstractEntity {
     public Train train;
     public Ticket(){}
 
-    public Ticket(UUID id, UUID passengerId,UUID trainId, DateTime beginTime, DateTime endTime, float ticketCost) {
-       super(id);
-       // this.passenger = passenger;
+    public Ticket(String discriminator,UUID id, UUID passengerId,UUID trainId, DateTime beginTime, DateTime endTime, float ticketCost) {
+       super(id,discriminator);
         this.passengerId=passengerId;
         this.trainId=trainId;
         if (beginTime == null) {
@@ -81,13 +78,6 @@ public class Ticket extends AbstractEntity {
     public void setTicketCost(float ticketCost) {
         this.ticketCost = ticketCost;
     }
-// Getters
-//    public String getInfo() {
-//        String beginTimeString = beginTime != null ? beginTime.toString() : "Not set";
-//        String endTimeString = endTime != null ? endTime.toString() : "Not set";
-//        return "Ticket id: " +
-//                train.getInfo() + "; begin time: " + beginTimeString + "; end time: " + endTimeString + "; paid: " + ticketCost;
-//    }
 
     public DateTime getBeginTime() {
         return beginTime;
@@ -100,7 +90,6 @@ public class Ticket extends AbstractEntity {
     public float getTicketCost() {
         return ticketCost;
     }
-
 
     public UUID getTrainId() {
         return trainId;

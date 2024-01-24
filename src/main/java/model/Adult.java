@@ -18,11 +18,9 @@ public class Adult extends Passenger{
     @CqlName("discount")
     private double discount=0.0;
 
-
-
     public Adult(){}
-    public Adult(String firstName, String lastName, UUID id, int age, boolean isArchive, double discount) {
-        super(firstName, lastName, id, age, isArchive);
+    public Adult(String discriminator,String firstName, String lastName, UUID id, int age, boolean isArchive, double discount) {
+        super(discriminator,firstName, lastName, id, age, isArchive);
         this.discount = discount;
 
     }
@@ -32,20 +30,13 @@ public class Adult extends Passenger{
         return 0.0;
     }
 
-
-
     @Override
     public void setDiscount(double discount) {
         this.discount = discount;
     }
 
-    //    @Override
     public static double applyDiscount(double price) {
         return price;
     }
 
-//    @Override
-//    public String getTypeInfo() {
-//        return "ADULT";
-//    }
 }

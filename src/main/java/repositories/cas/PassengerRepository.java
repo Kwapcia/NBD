@@ -13,8 +13,6 @@ import model.Passenger;
 import model.Senior;
 import model.mapper.DaoMapper;
 import model.mapper.DaoMapperBuilder;
-
-import java.awt.*;
 import java.util.UUID;
 
 public class PassengerRepository implements Repository<Passenger>{
@@ -28,8 +26,7 @@ public class PassengerRepository implements Repository<Passenger>{
     }
     @Override
     public void createTable(){
-        SimpleStatement createTable = SchemaBuilder
-                .createTable(CqlIdentifier.fromCql(CassandraIds.KEYSPACE),CqlIdentifier.fromCql(CassandraIds.PASSENGER_TABLE))
+        SimpleStatement createTable = SchemaBuilder.createTable(CqlIdentifier.fromCql(CassandraIds.KEYSPACE),CqlIdentifier.fromCql(CassandraIds.PASSENGER_TABLE))
                 .ifNotExists()
                 .withPartitionKey(CqlIdentifier.fromCql("dicriminator"), DataTypes.TEXT)
                 .withClusteringColumn(CqlIdentifier.fromCql("id"),DataTypes.UUID)

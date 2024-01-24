@@ -24,8 +24,7 @@ public class TrainRepository implements Repository<Train>{
     }
     @Override
     public void createTable(){
-        SimpleStatement createTable = SchemaBuilder
-                .createTable(CqlIdentifier.fromCql(CassandraIds.KEYSPACE),CqlIdentifier.fromCql(CassandraIds.TRAIN_TABLE))
+        SimpleStatement createTable = SchemaBuilder.createTable(CqlIdentifier.fromCql(CassandraIds.KEYSPACE),CqlIdentifier.fromCql(CassandraIds.TRAIN_TABLE))
                 .ifNotExists()
                 .withPartitionKey(CqlIdentifier.fromCql("discriminator"), DataTypes.TEXT)
                 .withClusteringColumn(CqlIdentifier.fromCql("id"),DataTypes.UUID)
@@ -33,6 +32,7 @@ public class TrainRepository implements Repository<Train>{
                 .withColumn(CqlIdentifier.fromCql("seat"),DataTypes.TEXT)
                 .withColumn(CqlIdentifier.fromCql("starting_location"),DataTypes.TEXT)
                 .withColumn(CqlIdentifier.fromCql("destination"),DataTypes.TEXT)
+                .withColumn(CqlIdentifier.fromCql("archive"), DataTypes.BOOLEAN)
                 .build();
         session.execute(createTable);
     }

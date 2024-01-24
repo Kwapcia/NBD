@@ -14,22 +14,21 @@ import java.util.UUID;
 @Setter
 public class Passenger extends AbstractEntity {
 
-        private UUID id;
+    @PartitionKey
+    private String discriminator;
+    @CqlName("id")
+    private UUID id;
+    @CqlName("first_name")
+    private String firstName;
+    @CqlName("last_name")
+    private String lastName;
 
-        @CqlName("first_name")
-        private String firstName;
-        @CqlName("last_name")
-        private String lastName;
+    @CqlName("age")
+    private int age;
 
-        @CqlName("age")
-        private int age;
-
-        private boolean isArchive;
-        @CqlName("discount")
-        private double discount;
-
-       // private Children passengerType;
-
+    private boolean isArchive;
+    @CqlName("discount")
+    private double discount;
 
     public void setId(UUID id) {
         this.id = id;
@@ -48,8 +47,8 @@ public class Passenger extends AbstractEntity {
     }
     public Passenger() {}
 
-    public Passenger(String firstName, String lastName, UUID id, int age,boolean isArchive) {
-        super(id);
+    public Passenger(String discriminator,String firstName, String lastName, UUID id, int age,boolean isArchive) {
+        super(id,discriminator);
         if (firstName == null || firstName.isEmpty()) {
             throw new IllegalArgumentException("Invalid firstName (can't be empty)!");
         }
@@ -65,28 +64,11 @@ public class Passenger extends AbstractEntity {
         if (age > 120) {
             throw new IllegalArgumentException("Invalid age!");
         }
-        //            if (age < 18) {
-//                this.passengerType = new Children();
-//            } else if (age > 18 && age < 65) {
-//                this.passengerType = new Adult();
-//            } else {
-//                this.passengerType = new Senior();
-//            }
-
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
         this.isArchive = isArchive;
-        //this.passengerType = passengerType;
     }
-
-
-    // Getters
-        public String getInfo() {
-            return "First name: " + getFirstName() + ", last name: " + getLastName() + ", id: " +
-                    getId() + ", age: " + getAge()  +
-                    ", is archive: " + (isArchive ? "true" : "false");
-        }
 
         public String getFirstName() {
             return firstName;
@@ -108,10 +90,6 @@ public class Passenger extends AbstractEntity {
             return isArchive;
         }
 
-//    public PassengerType getPassengerType() {
-//        return passengerType;
-//    }
-
     // Setters
         public void setFirstName(String newFirstName) {
             if (newFirstName != null && !newFirstName.isEmpty()) {
@@ -128,28 +106,10 @@ public class Passenger extends AbstractEntity {
         public void setAge(int newAge) {
             if (newAge >= 0) {
                 age = newAge;
-//                if (age < 18) {
-//                    passengerType = new Children();
-//                } else if (age > 18 && age < 65) {
-//                    passengerType = new Adult();
-//                } else {
-//                    passengerType = new Senior();
-//                }
             }
         }
 
         public void setArchiveStatus(boolean isArchive) {
             this.isArchive = isArchive;
         }
-
-//        public void setPassengerType(PassengerType newPassengerType) {
-//            if (newPassengerType != null) {
-//                passengerType = newPassengerType;
-//            }
-//        }
-
-        // Other
-        //public double applyDiscount(double price) {
-//            return passengerType.applyDiscount(price);
-//        }
 }

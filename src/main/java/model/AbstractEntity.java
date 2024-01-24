@@ -1,7 +1,6 @@
 package model;
 
 import com.datastax.oss.driver.api.mapper.annotations.PartitionKey;
-import org.bson.types.ObjectId;
 import com.datastax.oss.driver.api.mapper.annotations.ClusteringColumn;
 
 import java.io.Serializable;
@@ -20,7 +19,7 @@ public abstract class AbstractEntity implements Serializable,Entity{
     //By default Cassandra storage engine sorts the data in ascending order of clustering key columns
 
     public AbstractEntity(){}
-    public AbstractEntity(UUID id) {
+    public AbstractEntity(UUID id,String discriminator) {
         this.id = id;
         this.discriminator =this.getClass().getSimpleName();
     }

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ef699769-1be2-4de9-8ce6-8b1e07a66d95" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.vs/NBD/FileContentIndex/2481c687-19af-4c7f-b1a0-6ebcfdf55655.vsidx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/NBD/FileContentIndex/read.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/NBD/v17/.suo" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/VSWorkspaceState.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/slnx.sqlite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/etc/application.conf" beforeDir="false" afterPath="$PROJECT_DIR$/etc/application.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/etc/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/etc/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cassandra_connectin/application.conf" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cassandra_connectin/application.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/PassengerDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/PassengerDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/manager/SessionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/manager/SessionManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/AbstractEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/AbstractEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Adult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Adult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Children.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Children.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Passenger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Passenger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Senior.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Senior.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Ticket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Ticket.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Train.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Train.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/mapper/DaoMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/mapper/DaoMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/repositories/cas/PassengerRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/repositories/cas/PassengerRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/repositories/cas/Repository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/repositories/cas/Repository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/repositories/cas/TicketRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/repositories/cas/TicketRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/repositories/cas/TrainRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/repositories/cas/TrainRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/PassengerRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/PassengerRepositoryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/TrainRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TrainRepositoryTest.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2b4qvR1NhtvK6Ft5lf5nLthNgnF" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.38390803",
+    "settings.editor.selected.configurable": "preferences.customizations"
+  }
+}]]></component>
+  <component name="RunManager" selected="JUnit.PassengerRepositoryTest">
+    <configuration name="PassengerRepositoryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="NBD" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="PassengerRepositoryTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PassengerRepositoryTest.addTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="NBD" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="PassengerRepositoryTest" />
+      <option name="METHOD_NAME" value="addTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TrainRepositoryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="NBD" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="TrainRepositoryTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="etc: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="sourceFilePath" value="etc/docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="etc.cassandra2: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="services">
+            <list>
+              <option value="cassandra2" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="etc/docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.PassengerRepositoryTest" />
+        <item itemvalue="JUnit.TrainRepositoryTest" />
+        <item itemvalue="Docker.etc: Compose Deployment" />
+        <item itemvalue="JUnit.PassengerRepositoryTest.addTest" />
+        <item itemvalue="Docker.etc.cassandra2: Compose Deployment" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ef699769-1be2-4de9-8ce6-8b1e07a66d95" name="Changes" comment="" />
+      <created>1705484961035</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1705484961035</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

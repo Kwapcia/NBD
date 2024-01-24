@@ -48,8 +48,7 @@ public class TicketRepository implements Repository<Ticket> {
     }
     @Override
     public void createTable(){
-        SimpleStatement createTable = SchemaBuilder
-                .createTable(CqlIdentifier.fromCql(CassandraIds.KEYSPACE),CqlIdentifier.fromCql(CassandraIds.TICKET_TABLE))
+        SimpleStatement createTable = SchemaBuilder.createTable(CqlIdentifier.fromCql(CassandraIds.KEYSPACE),CqlIdentifier.fromCql(CassandraIds.TICKET_TABLE))
                 .ifNotExists()
                 .withPartitionKey(DISCRIMINATOR,DataTypes.TEXT)
                 .withClusteringColumn(ID, DataTypes.UUID)
@@ -147,12 +146,14 @@ public class TicketRepository implements Repository<Ticket> {
         List<Row> list = session.execute(select).all();
         ArrayList<Ticket> selectTickets = new ArrayList<>();
         for (Row row:list){
-            Ticket rowTicket = new Ticket(row.get(ID,UUID.class),
-                    row.get(PASSENGER_ID,UUID.class),
-                    row.get(TRAIN_ID,UUID.class),
+            Ticket rowTicket = new Ticket(
+                    "Ticket",
+                    row.get(ID, UUID.class),
+                    row.get(PASSENGER_ID, UUID.class),
+                    row.get(TRAIN_ID, UUID.class),
                     row.get(BEGIN_TIME, DateTime.class),
-                    row.get(END_TIME,DateTime.class),
-                    row.get(TICKET_COST,Float.class)
+                    row.get(END_TIME, DateTime.class),
+                    row.get(TICKET_COST, Float.class)
             );
             selectTickets.add(rowTicket);
         }
@@ -167,7 +168,9 @@ public class TicketRepository implements Repository<Ticket> {
         List<Row> list = session.execute(select).all();
         ArrayList<Ticket> selectTickets = new ArrayList<>();
         for (Row row:list){
-            Ticket rowTicket = new Ticket(row.get(ID,UUID.class),
+            Ticket rowTicket = new Ticket(
+                    "Ticket",
+                    row.get(ID,UUID.class),
                     row.get(PASSENGER_ID,UUID.class),
                     row.get(TRAIN_ID,UUID.class),
                     row.get(BEGIN_TIME, DateTime.class),

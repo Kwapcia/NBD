@@ -25,16 +25,20 @@ public interface PassengerDao {
     void insertSenior(Senior senior);
     @Select
     @StatementAttributes(consistencyLevel = CassandraIds.READ_CONSISTENCY_LEVEL)
-    Passenger selectPassenger(String discriminator, UUID id);
+    Passenger selectPassenger(@CqlName("discriminator") String discriminator, @CqlName("id") UUID id);
+
     @Select
     @StatementAttributes(consistencyLevel = CassandraIds.READ_CONSISTENCY_LEVEL)
-    Adult selectAdult(String discriminator, UUID id);
+    Adult selectAdult(@CqlName("discriminator") String discriminator, @CqlName("id") UUID id);
+
     @Select
     @StatementAttributes(consistencyLevel = CassandraIds.READ_CONSISTENCY_LEVEL)
-    Children selectChildren(String discriminator, UUID id);
+    Children selectChildren(@CqlName("discriminator") String discriminator, @CqlName("id") UUID id);
+
     @Select
     @StatementAttributes(consistencyLevel = CassandraIds.READ_CONSISTENCY_LEVEL)
-    Senior selectSenior(String discriminator, UUID id);
+    Senior selectSenior(@CqlName("discriminator") String discriminator, @CqlName("id") UUID id);
+
     @Delete
     @StatementAttributes(consistencyLevel = CassandraIds.WRITE_CONSISTENCY_LEVEL)
     void deletePassenger(Passenger passenger);

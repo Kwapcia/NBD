@@ -17,8 +17,8 @@ public class Senior extends Passenger {
     private double discount;
 
     public Senior(){}
-    public Senior(String firstName, String lastName, UUID id, int age, boolean isArchive, double discount){
-        super(firstName, lastName, id, age, isArchive);
+    public Senior(String discriminator,String firstName, String lastName, UUID id, int age, boolean isArchive, double discount){
+        super(discriminator,firstName, lastName, id, age, isArchive);
         this.discount = discount;
 
     }
@@ -36,9 +36,4 @@ public class Senior extends Passenger {
     public static double applyDiscount(double price) {
         return 0.8 * price;
     }
-
-//    @Override
-//    public String getTypeInfo() {
-//        return "Senior";
-//    }
 }

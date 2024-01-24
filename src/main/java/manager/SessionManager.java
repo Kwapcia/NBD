@@ -4,6 +4,7 @@ import com.datastax.oss.driver.api.core.CqlIdentifier;
 import com.datastax.oss.driver.api.core.CqlSession;
 import com.datastax.oss.driver.api.core.cql.SimpleStatement;
 import com.datastax.oss.driver.api.querybuilder.SchemaBuilder;
+import com.datastax.oss.driver.api.querybuilder.schema.CreateKeyspace;
 import ids.CassandraIds;
 import repositories.cas.PassengerRepository;
 import repositories.cas.Repository;
@@ -11,6 +12,8 @@ import repositories.cas.TicketRepository;
 import repositories.cas.TrainRepository;
 
 import java.net.InetSocketAddress;
+
+import static com.datastax.oss.driver.api.querybuilder.SchemaBuilder.createKeyspace;
 
 public class SessionManager implements AutoCloseable{
     private static CqlSession session;
@@ -25,16 +28,15 @@ public class SessionManager implements AutoCloseable{
         session=CqlSession.builder()
                 .addContactPoint(new InetSocketAddress("cassandra1",9042))
                 .addContactPoint(new InetSocketAddress("cassandra2",9043))
-                .addContactPoint(new InetSocketAddress("cassandra3",9044))
-                .withAuthCredentials("cassandra","cassandra")
+                .withLocalDatacenter("dc1")
+                .withAuthCredentials("cassandra","cassandrapassword")
                 .build();
-        SimpleStatement keyspace= SchemaBuilder
-                .createKeyspace(CqlIdentifier.fromCql(CassandraIds.KEYSPACE))
+        CreateKeyspace keyspace= createKeyspace(CqlIdentifier.fromCql(CassandraIds.KEYSPACE))
                 .ifNotExists()
                 .withSimpleStrategy(2)
-                .withDurableWrites(true)
-                .build();
-        session.execute(keyspace);
+                .withDurableWrites(true); //stosowanie commit log, bez tego awaria wezla -> utrata danych nie zapisanych z Memtable do SSTable
+        SimpleStatement createKeyspace=keyspace.build();
+        session.execute(createKeyspace);
     }
     @Override
     public void close() throws Exception{

@@ -1,4 +1,3 @@
-import com.mongodb.client.model.search.SearchScore;
 import ids.CassandraIds;
 import manager.SessionManager;
 import model.Train;
@@ -19,9 +18,10 @@ public class TrainRepositoryTest  {
     public void addTrain(){
         try(SessionManager sessionManager = new SessionManager()){
             Repository<Train> trainRepository =sessionManager.createRepository(SessionManager.dataType.TRAIN);
-            train = new Train(24, UUID.randomUUID(),"2D","Ldz","wro",false);
+            train = new Train("train", UUID.randomUUID(),24,"2D","Ldz","wro",false);
             trainRepository.insert(train);
             Train foundTrain = trainRepository.select(train.getId(), CassandraIds.selectType.TRAIN);
+            assertEquals(train.getDiscriminator(),foundTrain.getDiscriminator());
             assertEquals(train.getBasePrice(),foundTrain.getBasePrice());
             assertEquals(train.getId(),foundTrain.getId());
             assertEquals(train.getSeat(),foundTrain.getSeat());
@@ -37,9 +37,10 @@ public class TrainRepositoryTest  {
     public void updateTrain(){
         try(SessionManager sessionManager = new SessionManager()){
             Repository<Train> trainRepository = sessionManager.createRepository(SessionManager.dataType.TRAIN);
-            train1 = new Train(334,UUID.randomUUID(),"2n","sdf","aef",false);
+            train1 = new Train("train",UUID.randomUUID(),375,"2n","sdf","aef",false);
             trainRepository.insert(train1);
             Train foundTrain = trainRepository.select(train1.getId(), CassandraIds.selectType.TRAIN);
+            assertEquals(train1.getDiscriminator(),foundTrain.getDiscriminator());
             assertEquals(train1.getBasePrice(),foundTrain.getBasePrice());
             assertEquals(train1.getId(),foundTrain.getId());
             assertEquals(train1.getSeat(),foundTrain.getSeat());
@@ -52,6 +53,7 @@ public class TrainRepositoryTest  {
             train1.setStartingLocation("tsodinfsd");
             trainRepository.update(train1);
             foundTrain = trainRepository.select(train1.getId(), CassandraIds.selectType.TRAIN);
+            assertEquals(train1.getDiscriminator(),foundTrain.getDiscriminator());
             assertEquals(train1.getBasePrice(),foundTrain.getBasePrice());
             assertEquals(train1.getId(),foundTrain.getId());
             assertEquals(train1.getSeat(),foundTrain.getSeat());
@@ -66,9 +68,10 @@ public class TrainRepositoryTest  {
     public void deleteTrain(){
         try(SessionManager sessionManager = new SessionManager()){
             Repository<Train> trainRepository = sessionManager.createRepository(SessionManager.dataType.TRAIN);
-            train2 = new Train(253,UUID.randomUUID(),"2d","adf","asdas",false);
+            train2 = new Train("train",UUID.randomUUID(),354,"2d","adf","asdas",false);
             trainRepository.insert(train2);
             Train foundTrain = trainRepository.select(train2.getId(), CassandraIds.selectType.TRAIN);
+            assertEquals(train2.getDiscriminator(),foundTrain.getDiscriminator());
             assertEquals(train2.getBasePrice(),foundTrain.getBasePrice());
             assertEquals(train2.getId(),foundTrain.getId());
             assertEquals(train2.getSeat(),foundTrain.getSeat());
